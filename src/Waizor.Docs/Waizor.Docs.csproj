@@ -10,4 +10,10 @@
     <ProjectReference Include="..\Waizor\Waizor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\Pages\Components\Accordion.razor">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

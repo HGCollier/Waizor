@@ -1,3 +1,34 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Reflection
+@inherits LayoutComponentBase
+@{
+    var directoryName = Path.GetDirectoryName(typeof(AssemblyReference).Assembly.Location) ?? throw new NullReferenceException("Unable to find the assembly location.");
 
-@Body
+    var componentsPagesPath = Path.Combine(directoryName, @"Components\Pages\Components");
+    var fileInfos = Directory.GetFiles(componentsPagesPath, "*.razor").Select(x => new FileInfo(x));
+}
+
+<aside>
+    <nav>
+        <ul>
+            <li>
+                <a href="/" title="Home">
+                    <strong>Waizor</strong>
+                </a>
+            </li>
+            @foreach (var fileInfo in fileInfos)
+            {
+                var page = fileInfo.Name.Remove(fileInfo.Name.LastIndexOf(fileInfo.Extension));
+
+                <li>
+                    <a href="@(page.PascalToKebabCase())" title="@(page)">
+                        @(page)
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</aside>
+
+<main>
+    @Body
+</main>
