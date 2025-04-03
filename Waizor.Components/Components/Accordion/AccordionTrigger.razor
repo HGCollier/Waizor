@@ -1,0 +1,8 @@
+﻿@namespace Waizor.UI.Components
+@inherits ComponentBase
+
+<h3>
+    <button type="button" aria-expanded="@AccordionItem.Open" aria-controls="@Accordion.ContentId" id="@Accordion.TriggerId" @onclick="OnClick">
+        @ChildContent 
+    </button>
+</h3>

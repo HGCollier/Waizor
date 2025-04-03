@@ -1,0 +1,6 @@
+﻿@namespace Waizor.UI.Components
+@inherits ComponentBase
+
+<div id="@Accordion.ContentId" role="region" aria-labelledby="@Accordion.TriggerId" hidden="@(!AccordionItem.Open)">
+    @ChildContent
+</div>
