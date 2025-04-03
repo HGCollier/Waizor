@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor", "Waizor\Waizor.csproj", "{13AA240C-6B14-4E5E-9F9D-7BFC8E5BD7C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor.UI", "Waizor.Components\Waizor.UI.csproj", "{63862BD6-4E56-4445-A8BF-053D610E3136}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor.UI", "Waizor.UI\Waizor.UI.csproj", "{4195121C-9100-2E61-B1C0-B25728E57836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{13AA240C-6B14-4E5E-9F9D-7BFC8E5BD7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13AA240C-6B14-4E5E-9F9D-7BFC8E5BD7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13AA240C-6B14-4E5E-9F9D-7BFC8E5BD7C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63862BD6-4E56-4445-A8BF-053D610E3136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63862BD6-4E56-4445-A8BF-053D610E3136}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63862BD6-4E56-4445-A8BF-053D610E3136}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63862BD6-4E56-4445-A8BF-053D610E3136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4195121C-9100-2E61-B1C0-B25728E57836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4195121C-9100-2E61-B1C0-B25728E57836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4195121C-9100-2E61-B1C0-B25728E57836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4195121C-9100-2E61-B1C0-B25728E57836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
