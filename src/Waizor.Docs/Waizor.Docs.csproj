@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Components\Pages\Components\Alert.razor">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Components\Pages\Components\Accordion.razor">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

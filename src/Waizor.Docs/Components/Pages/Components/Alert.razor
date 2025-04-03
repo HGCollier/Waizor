@@ -1,0 +1,26 @@
+﻿@page "/alert"
+@rendermode InteractiveServer
+
+<h1>
+    Alert
+</h1>
+
+<button type="button" @onclick="ShowAlert">
+    Trigger alert
+</button>
+
+@if (_showAlert)
+{
+    <Waizor.Components.Alert>
+        Hello
+    </Waizor.Components.Alert>
+}
+
+@code {
+    private bool _showAlert = false;
+
+    private void ShowAlert()
+    {
+        _showAlert = true;
+    }
+}
