@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Waizor.UI.Components;
+namespace Waizor.Components;
 
-public partial class AccordionContent : ComponentBase
+public partial class AccordionTrigger : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -12,4 +12,6 @@ public partial class AccordionContent : ComponentBase
 
     [CascadingParameter]
     public required Accordion Accordion { get; set; }
+
+    private void OnClick() => AccordionItem.Toggle();
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Waizor.UI.Components;
+namespace Waizor.Components;
 
 public partial class Accordion : ComponentBase
 {
