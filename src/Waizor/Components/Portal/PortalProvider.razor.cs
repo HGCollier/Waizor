@@ -2,19 +2,16 @@
 
 namespace Waizor.Components;
 
-public partial class AccordionItem : ComponentBase
+public partial class PortalProvider : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
 
-    [Parameter]
-    public string? Class { get; set; }
+    private readonly List<string> _ids = [];
 
-    public bool Open { get; set; }
-
-    public void Toggle()
+    public void Add(string id)
     {
-        Open = !Open;
+        _ids.Add(id);
 
         StateHasChanged();
     }

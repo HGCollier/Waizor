@@ -1,0 +1,21 @@
+{
+  "name": "waizor",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "rollup --config rollup.config.ts"
+  },
+  "keywords": [],
+  "author": "Halden Collier",
+  "license": "MIT",
+  "description": "Free, open-source, accessible, and customizable Blazor components based on WAI patterns that you can copy and paste into your apps. ",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "focus-trap": "^7.6.4"
+  }
+}

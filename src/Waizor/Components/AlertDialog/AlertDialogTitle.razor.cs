@@ -2,7 +2,7 @@
 
 namespace Waizor.Components;
 
-public partial class AccordionItem : ComponentBase
+public partial class AlertDialogTitle : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -10,12 +10,6 @@ public partial class AccordionItem : ComponentBase
     [Parameter]
     public string? Class { get; set; }
 
-    public bool Open { get; set; }
-
-    public void Toggle()
-    {
-        Open = !Open;
-
-        StateHasChanged();
-    }
+    [CascadingParameter]
+    public required AlertDialog AlertDialog { get; set; }
 }

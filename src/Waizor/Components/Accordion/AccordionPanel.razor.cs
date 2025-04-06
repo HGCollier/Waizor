@@ -2,7 +2,7 @@
 
 namespace Waizor.Components;
 
-public partial class AccordionContent : ComponentBase
+public partial class AccordionPanel : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -12,4 +12,7 @@ public partial class AccordionContent : ComponentBase
 
     [CascadingParameter]
     public required Accordion Accordion { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
 }

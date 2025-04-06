@@ -2,7 +2,7 @@
 
 namespace Waizor.Components;
 
-public partial class Alert : ComponentBase
+public partial class AlertDialogPopup : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -12,4 +12,11 @@ public partial class Alert : ComponentBase
 
     [Parameter]
     public string? Class { get; set; }
+
+    [CascadingParameter]
+    public required AlertDialog AlertDialog { get; set; }
+
+    private ElementReference _elementReference;
+
+    private void OnDeactivate() => AlertDialog.Hide();
 }

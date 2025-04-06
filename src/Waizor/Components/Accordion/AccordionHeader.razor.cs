@@ -2,20 +2,11 @@
 
 namespace Waizor.Components;
 
-public partial class AccordionItem : ComponentBase
+public partial class AccordionHeader : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
 
     [Parameter]
     public string? Class { get; set; }
-
-    public bool Open { get; set; }
-
-    public void Toggle()
-    {
-        Open = !Open;
-
-        StateHasChanged();
-    }
 }

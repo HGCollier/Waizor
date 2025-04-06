@@ -1,0 +1,10 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+<CascadingValue Value="this">
+    @ChildContent
+    @foreach (var id in _ids)
+    {
+        <SectionOutlet SectionName="@id" />
+    }
+</CascadingValue>

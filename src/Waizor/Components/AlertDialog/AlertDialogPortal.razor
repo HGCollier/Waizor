@@ -1,6 +1,11 @@
 ﻿@namespace Waizor.Components
 @inherits ComponentBase
 
-<div id="@Id" role="alert" class="@Class">
+@if (!AlertDialog.Open)
+{
+    return;
+}
+
+<Portal>
     @ChildContent
-</div>
+</Portal>

@@ -17,6 +17,9 @@
     <Content Update="Components\Pages\Components\Accordion.razor">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Components\Pages\Components\AlertDialog.razor">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

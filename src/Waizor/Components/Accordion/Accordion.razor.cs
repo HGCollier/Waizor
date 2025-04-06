@@ -15,4 +15,7 @@ public partial class Accordion : ComponentBase
 
     [Parameter]
     public string TriggerId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter]
+    public string? Class { get; set; }
 }

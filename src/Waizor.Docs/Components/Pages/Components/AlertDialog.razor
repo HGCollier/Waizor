@@ -1,0 +1,31 @@
+﻿@rendermode InteractiveServer
+@page "/alert-dialog"
+
+<PageTitle>
+    Alert Dialog
+</PageTitle>
+
+<Waizor.Components.AlertDialog>
+    <Waizor.Components.AlertDialogTrigger>
+        Discard draft
+    </Waizor.Components.AlertDialogTrigger>
+    <Waizor.Components.AlertDialogPortal>
+        <Waizor.Components.AlertDialogBackdrop />
+        <Waizor.Components.AlertDialogPopup>
+            <Waizor.Components.AlertDialogTitle>
+                Discard draft?
+            </Waizor.Components.AlertDialogTitle>
+            <Waizor.Components.AlertDialogDescription>
+                You can’t undo this action.
+            </Waizor.Components.AlertDialogDescription>
+            <div>
+                <Waizor.Components.AlertDialogClose>
+                    Cancel
+                </Waizor.Components.AlertDialogClose>
+                <Waizor.Components.AlertDialogClose>
+                    Discard
+                </Waizor.Components.AlertDialogClose>
+            </div>
+        </Waizor.Components.AlertDialogPopup>
+    </Waizor.Components.AlertDialogPortal>
+</Waizor.Components.AlertDialog>
