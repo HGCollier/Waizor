@@ -1557,7 +1557,6 @@
   };
 
   const create = (element, dotNetObject) => {
-      console.log("CREATE");
       const trap = createFocusTrap(element, {
           onDeactivate: () => {
               dotNetObject.invokeMethodAsync("Deactivate");

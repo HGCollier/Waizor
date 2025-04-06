@@ -3,7 +3,6 @@ import { FocusTrap } from "focus-trap";
 import { DotNet } from "../lib/dotnet";
 
 const create = (element: HTMLElement, dotNetObject: DotNet.DotNetObject) => {
-    console.log("CREATE");
     const trap = lib.createFocusTrap(element, {
         onDeactivate: () => {
             dotNetObject.invokeMethodAsync("Deactivate");
