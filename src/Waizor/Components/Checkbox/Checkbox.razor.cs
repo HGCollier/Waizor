@@ -5,7 +5,7 @@ namespace Waizor.Components;
 public partial class Checkbox<T> : ComponentBase
 {
     [Parameter]
-    public required RenderFragment ChildContent { get; set; }
+    public required RenderFragment<bool?> ChildContent { get; set; }
 
     [Parameter]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -17,10 +17,13 @@ public partial class Checkbox<T> : ComponentBase
     public string? Class { get; set; }
 
     [Parameter]
-    public bool Checked { get; set; }
+    public bool? Checked { get; set; } = null;
 
     [Parameter]
-    public EventCallback<bool> CheckedChanged { get; set; }
+    public bool Indeterminate { get; set; }
+
+    [Parameter]
+    public EventCallback<bool?> CheckedChanged { get; set; }
 
     [Parameter]
     public T? Value { get; set; }
@@ -34,6 +37,16 @@ public partial class Checkbox<T> : ComponentBase
     [Parameter]
     public bool Required { get; set; }
 
+    protected override void OnInitialized()
+    {
+        if (Indeterminate)
+        {
+            return;
+        }
+
+        Checked = false;
+    }
+
     private async Task OnClickAsync()
     {
         if (ReadOnly)
@@ -41,6 +54,7 @@ public partial class Checkbox<T> : ComponentBase
             return;
         }
 
+        Checked ??= false;
         Checked = !Checked;
 
         await CheckedChanged.InvokeAsync(Checked);

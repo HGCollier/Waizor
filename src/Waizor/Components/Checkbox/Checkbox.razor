@@ -12,15 +12,15 @@
             id="@Id" 
             class="@Class" 
             role="checkbox" 
-            aria-checked="@Checked.ToString().ToLowerInvariant()" 
+            aria-checked="@Checked?.ToString().ToLowerInvariant()" 
             data-checked="@Checked" 
             data-unchecked="@(!Checked)" 
             @onclick="OnClickAsync">
-        @ChildContent
+        @ChildContent(Checked)
     </button>
 </CascadingValue>
 
-@if (!Checked && Name != null)
+@if (!(Checked ?? false) && Name != null)
 {
     <input value="off" type="hidden" name="@Name" />
 }
