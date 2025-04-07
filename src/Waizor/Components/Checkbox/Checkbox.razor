@@ -1,0 +1,27 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+@typeparam T
+
+<CascadingValue Value="this">
+    <button type="button" 
+            disabled="@Disabled" 
+            data-disabled="@Disabled"
+            aria-readonly="@ReadOnly"
+            data-readonly="@ReadOnly"
+            data-required="@Required"
+            id="@Id" 
+            class="@Class" 
+            role="checkbox" 
+            aria-checked="@Checked.ToString().ToLowerInvariant()" 
+            data-checked="@Checked" 
+            data-unchecked="@(!Checked)" 
+            @onclick="OnClickAsync">
+        @ChildContent
+    </button>
+</CascadingValue>
+
+@if (!Checked && Name != null)
+{
+    <input value="off" type="hidden" name="@Name" />
+}
+<input value="@Value" required="@Required" disabled="@Disabled" name="@Name" type="checkbox" checked="@Checked" aria-hidden="true" tabindex="-1" style="clip: rect(0px, 0px, 0px, 0px); overflow: hidden; white-space: nowrap; position: fixed; top: 0px; left: 0px; border: 0px; padding: 0px; width: 1px; height: 1px; margin: -1px;" />
