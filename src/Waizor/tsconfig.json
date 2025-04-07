@@ -6,7 +6,7 @@
     /* Modules */
     "module": "ESNext",
     "moduleResolution": "bundler",
-   
+
     /* Interop Constraints */
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -16,5 +16,6 @@
 
     /* Completeness */
     "skipLibCheck": true
-  }
+  },
+  "include": ["Scripts/**/*", "rollup.config.ts"]
 }

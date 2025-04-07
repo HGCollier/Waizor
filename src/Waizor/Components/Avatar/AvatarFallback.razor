@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+@if (Avatar.Status == AvatarStatus.Loaded)
+{
+    return;
+}
+
+<span class="@Class">
+    @ChildContent
+</span>

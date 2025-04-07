@@ -10,6 +10,7 @@ declare global {
             ) => FocusTrap;
             dispose: (trap: FocusTrap) => void;
         };
+        avatar: (src: string, dotNetObject: DotNet.DotNetObject) => void;
     }
 }
 

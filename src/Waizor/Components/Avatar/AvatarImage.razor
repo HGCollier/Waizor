@@ -1,0 +1,9 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+@if (Avatar.Status != AvatarStatus.Loaded)
+{
+    return;
+}
+
+<img class="@Class" src="@Src" alt="@Alt" width="@Width" height="@Height" />
