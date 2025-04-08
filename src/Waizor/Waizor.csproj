@@ -18,6 +18,7 @@
     <Folder Include="Extensions\" />
     <Folder Include="Interop\" />
     <Folder Include="Scripts\components\" />
+    <Folder Include="Scripts\enums\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 

@@ -9,4 +9,7 @@ public partial class AccordionHeader : ComponentBase
 
     [Parameter]
     public string? Class { get; set; }
+
+    [CascadingParameter]
+    public required AccordionItem AccordionItem { get; set; }
 }

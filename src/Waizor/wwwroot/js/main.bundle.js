@@ -1604,7 +1604,7 @@
       return trap;
     };
 
-    const create = (element, dotNetObject) => {
+    const create$1 = (element, dotNetObject) => {
         const trap = createFocusTrap(element, {
             onDeactivate: () => {
                 dotNetObject.invokeMethodAsync("Deactivate");
@@ -1613,15 +1613,86 @@
         trap.activate();
         return trap;
     };
-    const dispose = (trap) => {
+    const dispose$1 = (trap) => {
         trap.deactivate();
     };
     const focusTrap = {
+        create: create$1,
+        dispose: dispose$1,
+    };
+
+    var Orientation;
+    (function (Orientation) {
+        Orientation[Orientation["Horizontal"] = 0] = "Horizontal";
+        Orientation[Orientation["Vertical"] = 1] = "Vertical";
+    })(Orientation || (Orientation = {}));
+
+    const create = (element, orientation) => {
+        const tabbableElements = tabbable(element);
+        let selected = 0;
+        let focusedElement = tabbableElements[selected];
+        const onKeyDown = (event) => {
+            if (!tabbableElements.some((x) => x === event.target)) {
+                return;
+            }
+            const isVertical = orientation === Orientation.Vertical;
+            const isPrevKey = event.key === "ArrowUp" || event.key === "ArrowLeft";
+            const isNextKey = event.key === "ArrowDown" || event.key === "ArrowRight";
+            const isValidKey = (isVertical &&
+                (event.key === "ArrowUp" || event.key === "ArrowDown")) ||
+                (!isVertical &&
+                    (event.key === "ArrowLeft" || event.key === "ArrowRight"));
+            if (isValidKey) {
+                event.preventDefault();
+                if (isPrevKey) {
+                    selected =
+                        selected === 0 ? tabbableElements.length - 1 : selected - 1;
+                }
+                else if (isNextKey) {
+                    selected =
+                        selected === tabbableElements.length - 1 ? 0 : selected + 1;
+                }
+                changeFocus(selected);
+            }
+        };
+        const onFocus = (event) => {
+            selected = tabbableElements.findIndex((x) => x === event.target);
+        };
+        const changeFocus = (index) => {
+            focusedElement = tabbableElements[index];
+            focusedElement.focus();
+        };
+        element.addEventListener("keydown", onKeyDown);
+        tabbableElements.forEach((element) => {
+            if (!(element instanceof HTMLElement)) {
+                return;
+            }
+            element.addEventListener("focus", onFocus);
+        });
+        return {
+            selected,
+            tabbableElements,
+            focusedElement,
+            onKeyDown,
+            onFocus,
+        };
+    };
+    const dispose = (element, rovingFocus) => {
+        element.removeEventListener("keydown", rovingFocus.onKeyDown);
+        rovingFocus.tabbableElements.forEach((element) => {
+            if (!(element instanceof HTMLElement)) {
+                return;
+            }
+            element.removeEventListener("focus", rovingFocus.onFocus);
+        });
+    };
+    const rovingFocus = {
         create,
         dispose,
     };
 
     window.focusTrap = focusTrap;
     window.avatar = avatar;
+    window.rovingFocus = rovingFocus;
 
 })();

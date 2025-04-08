@@ -1,6 +1,9 @@
 ﻿@namespace Waizor.Components
 @inherits ComponentBase
 
-<h3 class="@Class">
+<h3 class="@Class" 
+    data-state="@(AccordionItem.State.ToString().ToLowerInvariant())"
+    data-disabled="@AccordionItem.Disabled"
+    data-orientation="@AccordionItem.Accordion.Orientation.ToString().ToLowerInvariant()">
     @ChildContent
 </h3>

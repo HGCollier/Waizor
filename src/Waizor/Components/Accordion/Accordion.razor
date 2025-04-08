@@ -1,8 +1,10 @@
 ﻿@namespace Waizor.Components
 @inherits ComponentBase
 
+<RovingFocus For="@(() => _elementReference)" />
+
 <CascadingValue Value="this">
-    <div id="@Id" class="@Class">
+    <div @ref="_elementReference" id="@Id" class="@Class" data-orientation="@Orientation.ToString().ToLowerInvariant()">
         @ChildContent
     </div>
 </CascadingValue>
