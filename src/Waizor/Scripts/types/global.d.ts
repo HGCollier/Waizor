@@ -14,8 +14,12 @@ declare global {
             dispose: (trap: FocusTrap) => void;
         };
         rovingFocus: {
-            create: (element: HTMLElement) => RovingFocus;
-            dispose: (element: HTMLElement, rovingFocus: RovingFocus) => void;
+            create: (
+                element: HTMLElement,
+                orientation: Orientation
+            ) => RovingFocus;
+            update: (rovingFocus: RovingFocus) => RovingFocus;
+            dispose: (rovingFocus: RovingFocus) => void;
         };
         avatar: (src: string, dotNetObject: DotNet.DotNetObject) => void;
     }

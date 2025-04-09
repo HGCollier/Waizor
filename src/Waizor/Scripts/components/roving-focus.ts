@@ -1,12 +1,15 @@
-import { FocusableElement, tabbable } from "tabbable";
+import { FocusableElement, tabbable, isTabbable } from "tabbable";
 import { Orientation } from "../enums/orientation";
 
 interface RovingFocus {
+    element: HTMLElement;
     selected: number;
+    originalElements: FocusableElement[];
     tabbableElements: FocusableElement[];
     focusedElement: FocusableElement;
     onKeyDown: (event: KeyboardEvent) => void;
     onFocus: (event: FocusEvent) => void;
+    orientation: Orientation;
 }
 
 const create = (
@@ -15,7 +18,25 @@ const create = (
 ): RovingFocus => {
     const tabbableElements = tabbable(element);
 
+    return initialize(element, orientation, tabbableElements);
+};
+
+const initialize = (
+    element: HTMLElement,
+    orientation: Orientation,
+    tabbableElements: FocusableElement[],
+    originalElements?: FocusableElement[]
+): RovingFocus => {
     let selected = 0;
+
+    const focusedIndex = tabbableElements.findIndex(
+        (x) => document.activeElement === x
+    );
+    if (focusedIndex > -1) {
+        selected = focusedIndex;
+        tabbableElements[focusedIndex].focus();
+    }
+
     let focusedElement = tabbableElements[selected];
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -67,16 +88,30 @@ const create = (
     });
 
     return {
+        element,
         selected,
         tabbableElements,
+        originalElements: originalElements ?? tabbableElements,
         focusedElement,
         onKeyDown,
         onFocus,
+        orientation,
     };
 };
 
-const dispose = (element: HTMLElement, rovingFocus: RovingFocus) => {
-    element.removeEventListener("keydown", rovingFocus.onKeyDown);
+const update = (rovingFocus: RovingFocus): RovingFocus => {
+    dispose(rovingFocus);
+
+    return initialize(
+        rovingFocus.element,
+        rovingFocus.orientation,
+        rovingFocus.originalElements.filter((x) => isTabbable(x)),
+        rovingFocus.originalElements
+    );
+};
+
+const dispose = (rovingFocus: RovingFocus) => {
+    rovingFocus.element.removeEventListener("keydown", rovingFocus.onKeyDown);
     rovingFocus.tabbableElements.forEach((element: Element) => {
         if (!(element instanceof HTMLElement)) {
             return;
@@ -87,6 +122,7 @@ const dispose = (element: HTMLElement, rovingFocus: RovingFocus) => {
 
 const rovingFocus = {
     create,
+    update,
     dispose,
 };
 

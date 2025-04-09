@@ -1629,7 +1629,15 @@
 
     const create = (element, orientation) => {
         const tabbableElements = tabbable(element);
+        return initialize(element, orientation, tabbableElements);
+    };
+    const initialize = (element, orientation, tabbableElements, originalElements) => {
         let selected = 0;
+        const focusedIndex = tabbableElements.findIndex((x) => document.activeElement === x);
+        if (focusedIndex > -1) {
+            selected = focusedIndex;
+            tabbableElements[focusedIndex].focus();
+        }
         let focusedElement = tabbableElements[selected];
         const onKeyDown = (event) => {
             if (!tabbableElements.some((x) => x === event.target)) {
@@ -1670,15 +1678,22 @@
             element.addEventListener("focus", onFocus);
         });
         return {
+            element,
             selected,
             tabbableElements,
+            originalElements: originalElements !== null && originalElements !== void 0 ? originalElements : tabbableElements,
             focusedElement,
             onKeyDown,
             onFocus,
+            orientation,
         };
     };
-    const dispose = (element, rovingFocus) => {
-        element.removeEventListener("keydown", rovingFocus.onKeyDown);
+    const update = (rovingFocus) => {
+        dispose(rovingFocus);
+        return initialize(rovingFocus.element, rovingFocus.orientation, rovingFocus.originalElements.filter((x) => isTabbable(x)), rovingFocus.originalElements);
+    };
+    const dispose = (rovingFocus) => {
+        rovingFocus.element.removeEventListener("keydown", rovingFocus.onKeyDown);
         rovingFocus.tabbableElements.forEach((element) => {
             if (!(element instanceof HTMLElement)) {
                 return;
@@ -1688,6 +1703,7 @@
     };
     const rovingFocus = {
         create,
+        update,
         dispose,
     };
 

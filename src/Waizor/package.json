@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "Halden Collier",
   "license": "MIT",
-  "description": "Free, open-source, accessible, and customizable Blazor components based on WAI patterns that you can copy and paste into your apps. ",
+  "description": "Free, open-source, accessible, primitive UI component library for Blazor.",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
