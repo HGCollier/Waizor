@@ -18,7 +18,7 @@ public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDi
     {
         GC.SuppressFinalize(this);
 
-        if (_jsObjectReference == null)
+        if (_jsObjectReference == null || jsRuntime == null)
         {
             return;
         }
