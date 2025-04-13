@@ -16,8 +16,6 @@ public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDi
 
     public async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
-
         if (_jsObjectReference == null || jsRuntime == null)
         {
             return;
@@ -29,6 +27,11 @@ public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDi
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (jsRuntime == null)
+        {
+            return;
+        }
+
         if (_jsObjectReference != null)
         {
             _jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(

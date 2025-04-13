@@ -1,0 +1,12 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+<div @ref="elementReference" style="min-width: max-content; transform: translate(0, -200%); position: fixed; top: 0px; left: 0px; will-change: transform;">
+    <CascadingValue Value="this">
+        <div data-side="@Side.ToString().ToLowerInvariant()" 
+             data-align="@Align.ToString().ToLowerInvariant()"
+             @attributes="AdditionalAttributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
+</div>

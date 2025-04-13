@@ -3,6 +3,7 @@ import { FocusTrap } from "../components/focus-trap";
 import { RovingFocus } from "../components/roving-focus";
 import { Orientation } from "../enums/orientation";
 import { DotNet } from "../lib/dotnet";
+import { Popper } from "../components/popper";
 
 declare global {
     interface Window {
@@ -22,13 +23,13 @@ declare global {
             update: (rovingFocus: RovingFocus) => RovingFocus;
             dispose: (rovingFocus: RovingFocus) => void;
         };
-        popover: {
+        popper: {
             create: (
                 trigger: HTMLElement,
                 content: HTMLElement,
                 placement: Placement
-            ) => void;
-            dispose: (cleanup: () => void) => void;
+            ) => Popper;
+            dispose: (popper: Popper) => void;
         };
         avatar: (src: string, dotNetObject: DotNet.DotNetObject) => void;
     }

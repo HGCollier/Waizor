@@ -16,7 +16,10 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
 
     public async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
+        if (jsRuntime == null)
+        {
+            return;
+        }
 
         await jsRuntime.InvokeVoidAsync("focusTrap.dispose", _jsObjectReference);
 
@@ -32,7 +35,7 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        if (!firstRender || jsRuntime == null)
         {
             return;
         }

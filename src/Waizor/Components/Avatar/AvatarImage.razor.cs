@@ -27,7 +27,7 @@ public partial class AvatarImage(IJSRuntime jsRuntime) : ComponentBase, IDisposa
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        if (!firstRender || jsRuntime == null)
         {
             return;
         }
@@ -39,10 +39,5 @@ public partial class AvatarImage(IJSRuntime jsRuntime) : ComponentBase, IDisposa
     [JSInvokable]
     public void UpdateStatus(AvatarStatus status) => Avatar.UpdateStatus(status);
 
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-
-        _dotNetObjectReference?.Dispose();
-    }
+    public void Dispose() => _dotNetObjectReference?.Dispose();
 }

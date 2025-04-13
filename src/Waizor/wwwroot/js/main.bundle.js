@@ -2054,6 +2054,88 @@
     }
 
     /**
+     * Provides data to position an inner element of the floating element so that it
+     * appears centered to the reference element.
+     * @see https://floating-ui.com/docs/arrow
+     */
+    const arrow$1 = options => ({
+      name: 'arrow',
+      options,
+      async fn(state) {
+        const {
+          x,
+          y,
+          placement,
+          rects,
+          platform,
+          elements,
+          middlewareData
+        } = state;
+        // Since `element` is required, we don't Partial<> the type.
+        const {
+          element,
+          padding = 0
+        } = evaluate(options, state) || {};
+        if (element == null) {
+          return {};
+        }
+        const paddingObject = getPaddingObject(padding);
+        const coords = {
+          x,
+          y
+        };
+        const axis = getAlignmentAxis(placement);
+        const length = getAxisLength(axis);
+        const arrowDimensions = await platform.getDimensions(element);
+        const isYAxis = axis === 'y';
+        const minProp = isYAxis ? 'top' : 'left';
+        const maxProp = isYAxis ? 'bottom' : 'right';
+        const clientProp = isYAxis ? 'clientHeight' : 'clientWidth';
+        const endDiff = rects.reference[length] + rects.reference[axis] - coords[axis] - rects.floating[length];
+        const startDiff = coords[axis] - rects.reference[axis];
+        const arrowOffsetParent = await (platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(element));
+        let clientSize = arrowOffsetParent ? arrowOffsetParent[clientProp] : 0;
+
+        // DOM platform can return `window` as the `offsetParent`.
+        if (!clientSize || !(await (platform.isElement == null ? void 0 : platform.isElement(arrowOffsetParent)))) {
+          clientSize = elements.floating[clientProp] || rects.floating[length];
+        }
+        const centerToReference = endDiff / 2 - startDiff / 2;
+
+        // If the padding is large enough that it causes the arrow to no longer be
+        // centered, modify the padding so that it is centered.
+        const largestPossiblePadding = clientSize / 2 - arrowDimensions[length] / 2 - 1;
+        const minPadding = min(paddingObject[minProp], largestPossiblePadding);
+        const maxPadding = min(paddingObject[maxProp], largestPossiblePadding);
+
+        // Make sure the arrow doesn't overflow the floating element if the center
+        // point is outside the floating element's bounds.
+        const min$1 = minPadding;
+        const max = clientSize - arrowDimensions[length] - maxPadding;
+        const center = clientSize / 2 - arrowDimensions[length] / 2 + centerToReference;
+        const offset = clamp(min$1, center, max);
+
+        // If the reference is small enough that the arrow's padding causes it to
+        // to point to nothing for an aligned placement, adjust the offset of the
+        // floating element itself. To ensure `shift()` continues to take action,
+        // a single reset is performed when this is true.
+        const shouldAddOffset = !middlewareData.arrow && getAlignment(placement) != null && center !== offset && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
+        const alignmentOffset = shouldAddOffset ? center < min$1 ? center - min$1 : center - max : 0;
+        return {
+          [axis]: coords[axis] + alignmentOffset,
+          data: {
+            [axis]: offset,
+            centerOffset: center - offset - alignmentOffset,
+            ...(shouldAddOffset && {
+              alignmentOffset
+            })
+          },
+          reset: shouldAddOffset
+        };
+      }
+    });
+
+    /**
      * Optimizes the visibility of the floating element by flipping the `placement`
      * in order to keep it in view when the preferred placement(s) will overflow the
      * clipping boundary. Alternative to `autoPlacement`.
@@ -3166,6 +3248,13 @@
     const flip = flip$1;
 
     /**
+     * Provides data to position an inner element of the floating element so that it
+     * appears centered to the reference element.
+     * @see https://floating-ui.com/docs/arrow
+     */
+    const arrow = arrow$1;
+
+    /**
      * Computes the `x` and `y` coordinates that will place the floating element
      * next to a given reference element.
      */
@@ -3188,15 +3277,51 @@
       });
     };
 
-    const create = (trigger, content, placement) => {
-        const cleanup = autoUpdate(trigger, content, () => {
-            computePosition(trigger, content, {
+    const getSize = (element) => {
+        let size = undefined;
+        if (element) {
+            const width = element.offsetWidth;
+            const height = element.offsetHeight;
+            size = { width, height };
+        }
+        return size;
+    };
+
+    const create = ({ side, align, anchor, arrow: arrow$1, content, sideOffset, alignOffset, arrowPadding, }) => {
+        const desiredPlacement = (side +
+            (align !== "center" ? "-" + align : ""));
+        const cleanup = autoUpdate(anchor, content, () => {
+            var _a, _b;
+            const arrowSize = getSize(arrow$1);
+            const arrowWidth = (_a = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.width) !== null && _a !== void 0 ? _a : 0;
+            const arrowHeight = (_b = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.height) !== null && _b !== void 0 ? _b : 0;
+            computePosition(anchor, content, {
                 strategy: "fixed",
-                placement: placement,
-                middleware: [offset(6), flip(), shift({ padding: 5 })],
-            }).then(({ x, y }) => {
+                placement: desiredPlacement,
+                middleware: [
+                    offset({
+                        mainAxis: sideOffset + arrowHeight,
+                        alignmentAxis: alignOffset,
+                    }),
+                    flip(),
+                    shift({ padding: 5 }),
+                    arrow$1 &&
+                        arrow({ element: arrow$1, padding: arrowPadding }),
+                    transformOrigin({ arrowWidth, arrowHeight }),
+                ],
+            }).then(({ x, y, middlewareData }) => {
+                var _a, _b;
                 Object.assign(content.style, {
                     transform: `translate(${x}px, ${y}px)`,
+                });
+                if (arrow$1 == null) {
+                    return;
+                }
+                const arrowX = (_a = middlewareData.arrow) === null || _a === void 0 ? void 0 : _a.x;
+                const arrowY = (_b = middlewareData.arrow) === null || _b === void 0 ? void 0 : _b.y;
+                Object.assign(arrow$1.style, {
+                    left: `${arrowX}px`,
+                    top: `${arrowY}px`,
                 });
             });
         });
@@ -3204,10 +3329,49 @@
             cleanup,
         };
     };
-    const dispose = (popover) => {
-        popover.cleanup();
+    const dispose = (popper) => {
+        popper.cleanup();
     };
-    const popover = {
+    const transformOrigin = (options) => ({
+        name: "transformOrigin",
+        options,
+        fn(data) {
+            var _a, _b, _c, _d, _e;
+            const { placement, rects, middlewareData } = data;
+            const cannotCenterArrow = ((_a = middlewareData.arrow) === null || _a === void 0 ? void 0 : _a.centerOffset) !== 0;
+            const isArrowHidden = cannotCenterArrow;
+            const arrowWidth = isArrowHidden ? 0 : options.arrowWidth;
+            const arrowHeight = isArrowHidden ? 0 : options.arrowHeight;
+            const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
+            const noArrowAlign = { start: "0%", center: "50%", end: "100%" }[placedAlign];
+            const arrowXCenter = ((_c = (_b = middlewareData.arrow) === null || _b === void 0 ? void 0 : _b.x) !== null && _c !== void 0 ? _c : 0) + arrowWidth / 2;
+            const arrowYCenter = ((_e = (_d = middlewareData.arrow) === null || _d === void 0 ? void 0 : _d.y) !== null && _e !== void 0 ? _e : 0) + arrowHeight / 2;
+            let x = "";
+            let y = "";
+            if (placedSide === "bottom") {
+                x = isArrowHidden ? noArrowAlign : `${arrowXCenter}px`;
+                y = `${-arrowHeight}px`;
+            }
+            else if (placedSide === "top") {
+                x = isArrowHidden ? noArrowAlign : `${arrowXCenter}px`;
+                y = `${rects.floating.height + arrowHeight}px`;
+            }
+            else if (placedSide === "right") {
+                x = `${-arrowHeight}px`;
+                y = isArrowHidden ? noArrowAlign : `${arrowYCenter}px`;
+            }
+            else if (placedSide === "left") {
+                x = `${rects.floating.width + arrowHeight}px`;
+                y = isArrowHidden ? noArrowAlign : `${arrowYCenter}px`;
+            }
+            return { data: { x, y } };
+        },
+    });
+    const getSideAndAlignFromPlacement = (placement) => {
+        const [side, align = "center"] = placement.split("-");
+        return [side, align];
+    };
+    const popper = {
         create,
         dispose,
     };
@@ -3215,6 +3379,6 @@
     window.focusTrap = focusTrap;
     window.avatar = avatar;
     window.rovingFocus = rovingFocus;
-    window.popover = popover;
+    window.popper = popper;
 
 })();
