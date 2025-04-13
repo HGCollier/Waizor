@@ -13,6 +13,8 @@
 
     /* Type Checking */
     "strict": true,
+    "noEmit": true,
+    "typeRoots": [ "./node_modules/@types", "./Scripts/types" ],
 
     /* Completeness */
     "skipLibCheck": true

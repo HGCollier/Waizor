@@ -1,0 +1,8 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+<FocusTrap For="@(() => _elementReference)" OnDeactivate="OnDeactivateAsync" />
+
+<div @ref="_elementReference" data-state="@Popover.State.ToString().ToLowerInvariant()" style="position: fixed; left: 0px; top: 0px; min-width: max-content; will-change: transform;">
+    @ChildContent
+</div>

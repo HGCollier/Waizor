@@ -126,4 +126,4 @@ const rovingFocus = {
     dispose,
 };
 
-export { rovingFocus };
+export { rovingFocus, type RovingFocus };

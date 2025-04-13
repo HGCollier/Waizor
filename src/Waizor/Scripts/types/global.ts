@@ -1,5 +1,6 @@
+import { Placement } from "@floating-ui/dom";
 import { FocusTrap } from "../components/focus-trap";
-import { RovingFocus } from "../components/focus-trap";
+import { RovingFocus } from "../components/roving-focus";
 import { Orientation } from "../enums/orientation";
 import { DotNet } from "../lib/dotnet";
 
@@ -20,6 +21,14 @@ declare global {
             ) => RovingFocus;
             update: (rovingFocus: RovingFocus) => RovingFocus;
             dispose: (rovingFocus: RovingFocus) => void;
+        };
+        popover: {
+            create: (
+                trigger: HTMLElement,
+                content: HTMLElement,
+                placement: Placement
+            ) => void;
+            dispose: (cleanup: () => void) => void;
         };
         avatar: (src: string, dotNetObject: DotNet.DotNetObject) => void;
     }

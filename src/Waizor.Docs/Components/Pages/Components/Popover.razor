@@ -1,0 +1,58 @@
+﻿@page "/popover"
+
+<PageTitle>
+    Popover
+</PageTitle>
+
+<div style="min-height: 100vh"></div>
+
+<Waizor.Components.Popover>
+    <Waizor.Components.PopoverTrigger AsChild For="@(() => triggerElementReference)">
+        <button @attributes="context" aria-label="Update dimensions" @ref="triggerElementReference">
+            ⚙️
+        </button>
+    </Waizor.Components.PopoverTrigger>
+    <Waizor.Components.PopoverPortal>
+        <Waizor.Components.PopoverContent>
+            <div>
+                <p>
+                    Dimensions
+                </p>
+                <fieldset>
+                    <label for="width">
+                        Width
+                    </label>
+                    <input id="width" value="100%" />
+                </fieldset>
+                <fieldset>
+                    <label for="maxWidth">
+                        Max. width
+                    </label>
+                    <input id="maxWidth" value="300px" />
+                </fieldset>
+                <fieldset>
+                    <label for="height">
+                        Height
+                    </label>
+                    <input id="height" value="25px" />
+                </fieldset>
+                <fieldset>
+                    <label for="maxHeight">
+                        Max. height
+                    </label>
+                    <input id="maxHeight" value="none" />
+                </fieldset>
+            </div>
+            <Waizor.Components.PopoverClose>
+                ✖️
+            </Waizor.Components.PopoverClose>
+            <Waizor.Components.PopoverArrow />
+        </Waizor.Components.PopoverContent>
+    </Waizor.Components.PopoverPortal>
+</Waizor.Components.Popover>
+
+<div style="min-height: 100vh"></div>
+
+@code {
+    private ElementReference triggerElementReference;
+}

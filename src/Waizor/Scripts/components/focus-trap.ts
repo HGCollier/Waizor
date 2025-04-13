@@ -22,4 +22,4 @@ const focusTrap = {
     dispose,
 };
 
-export { focusTrap };
+export { focusTrap, type FocusTrap };

@@ -10,13 +10,18 @@
   "license": "MIT",
   "description": "Free, open-source, accessible, primitive UI component library for Blazor.",
   "devDependencies": {
+    "@eslint/js": "^9.24.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
+    "eslint": "^9.24.0",
+    "globals": "^16.0.0",
     "rollup": "^4.39.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.1"
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.6.13",
     "focus-trap": "^7.6.4",
     "tabbable": "^6.2.0"
   }

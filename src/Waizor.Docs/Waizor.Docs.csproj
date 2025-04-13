@@ -26,6 +26,9 @@
     <Content Update="Components\Pages\Components\AlertDialog.razor">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Components\Pages\Components\Popover.razor">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
