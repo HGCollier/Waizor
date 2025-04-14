@@ -11,8 +11,16 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
     [Parameter]
     public EventCallback OnDeactivate { get; set; }
 
-    private IJSObjectReference? _jsObjectReference;
-    private DotNetObjectReference<FocusTrap>? _dotNetObjectReference;
+    [Parameter]
+    public bool ClickOutsideDeactivates { get; set; }
+
+    private IJSObjectReference? jsObjectReference;
+    private DotNetObjectReference<FocusTrap>? dotNetObjectReference;
+
+    private FocusTrapJSObject? JSObject =>
+        dotNetObjectReference != null
+            ? new(For(), dotNetObjectReference, ClickOutsideDeactivates)
+            : null;
 
     public async ValueTask DisposeAsync()
     {
@@ -21,16 +29,16 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("focusTrap.dispose", _jsObjectReference);
+        await jsRuntime.InvokeVoidAsync("focusTrap.dispose", jsObjectReference);
 
-        _dotNetObjectReference?.Dispose();
+        dotNetObjectReference?.Dispose();
 
-        if (_jsObjectReference == null)
+        if (jsObjectReference == null)
         {
             return;
         }
 
-        await _jsObjectReference.DisposeAsync();
+        await jsObjectReference.DisposeAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -40,11 +48,10 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
             return;
         }
 
-        _dotNetObjectReference = DotNetObjectReference.Create(this);
-        _jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
+        dotNetObjectReference = DotNetObjectReference.Create(this);
+        jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
             "focusTrap.create",
-            For(),
-            _dotNetObjectReference
+            JSObject
         );
     }
 

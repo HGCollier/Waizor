@@ -44,6 +44,17 @@ const create = ({
     const desiredPlacement = (side +
         (align !== "center" ? "-" + align : "")) as Placement;
 
+    console.log({
+        side,
+        align,
+        anchor,
+        arrow,
+        content,
+        sideOffset,
+        alignOffset,
+        arrowPadding,
+    });
+
     const cleanup = autoUpdate(anchor, content, () => {
         const arrowSize = getSize(arrow);
         const arrowWidth = arrowSize?.width ?? 0;
@@ -88,6 +99,7 @@ const create = ({
 };
 
 const dispose = (popper: Popper) => {
+    console.log("dispose");
     popper.cleanup();
 };
 
@@ -144,4 +156,4 @@ const popper = {
     dispose,
 };
 
-export { popper, type Popper };
+export { popper, type Popper, type DotNetPopperObject };

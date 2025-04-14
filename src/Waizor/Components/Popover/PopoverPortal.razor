@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Components
+@inherits ComponentBase
+
+@if (!Popover.Open)
+{
+    return;
+}
+
+<Portal>
+    @ChildContent
+</Portal>

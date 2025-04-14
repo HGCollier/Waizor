@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\Popover\" />
     <Folder Include="Extensions\" />
     <Folder Include="Interop\" />
     <Folder Include="Scripts\enums\" />

@@ -1,9 +1,8 @@
-import { Placement } from "@floating-ui/dom";
 import { FocusTrap } from "../components/focus-trap";
 import { RovingFocus } from "../components/roving-focus";
 import { Orientation } from "../enums/orientation";
 import { DotNet } from "../lib/dotnet";
-import { Popper } from "../components/popper";
+import { DotNetPopperObject, Popper } from "../components/popper";
 
 declare global {
     interface Window {
@@ -11,7 +10,7 @@ declare global {
             create: (
                 element: HTMLElement,
                 dotNetObject: DotNet.DotNetObject,
-                orientation: Orientation
+                clickOutsideDeactivates: boolean
             ) => FocusTrap;
             dispose: (trap: FocusTrap) => void;
         };
@@ -24,11 +23,16 @@ declare global {
             dispose: (rovingFocus: RovingFocus) => void;
         };
         popper: {
-            create: (
-                trigger: HTMLElement,
-                content: HTMLElement,
-                placement: Placement
-            ) => Popper;
+            create: ({
+                side,
+                align,
+                anchor,
+                arrow,
+                content,
+                sideOffset,
+                alignOffset,
+                arrowPadding,
+            }: DotNetPopperObject) => Popper;
             dispose: (popper: Popper) => void;
         };
         avatar: (src: string, dotNetObject: DotNet.DotNetObject) => void;

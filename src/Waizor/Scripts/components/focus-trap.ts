@@ -2,11 +2,22 @@ import * as lib from "focus-trap";
 import { FocusTrap } from "focus-trap";
 import { DotNet } from "../lib/dotnet";
 
-const create = (element: HTMLElement, dotNetObject: DotNet.DotNetObject) => {
+interface DotNetFocusTrapObject {
+    element: HTMLElement;
+    dotNetObject: DotNet.DotNetObject;
+    clickOutsideDeactivates: boolean;
+}
+
+const create = ({
+    element,
+    dotNetObject,
+    clickOutsideDeactivates,
+}: DotNetFocusTrapObject) => {
     const trap = lib.createFocusTrap(element, {
         onDeactivate: () => {
             dotNetObject.invokeMethodAsync("Deactivate");
         },
+        clickOutsideDeactivates,
     });
     trap.activate();
 
@@ -22,4 +33,4 @@ const focusTrap = {
     dispose,
 };
 
-export { focusTrap, type FocusTrap };
+export { focusTrap, type FocusTrap, type DotNetFocusTrapObject };

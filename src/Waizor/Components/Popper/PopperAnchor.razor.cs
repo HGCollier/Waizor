@@ -4,7 +4,7 @@ using Waizor.Exceptions;
 
 namespace Waizor.Components;
 
-public abstract partial class PopperAnchor : SlotBase
+public partial class PopperAnchor : SlotBase
 {
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }

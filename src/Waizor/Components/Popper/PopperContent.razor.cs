@@ -4,7 +4,10 @@ using Waizor.Enums;
 
 namespace Waizor.Components;
 
-public partial class PopperContent(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisposable
+public partial class PopperContent(IJSRuntime jsRuntime)
+    : ComponentBase,
+        IAsyncDisposable,
+        IPopperContent
 {
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
@@ -30,15 +33,28 @@ public partial class PopperContent(IJSRuntime jsRuntime) : ComponentBase, IAsync
     [CascadingParameter]
     public required Popper Popper { get; set; }
 
-    private IJSObjectReference? jsObjectReference;
-    private ElementReference elementReference;
+    [Parameter]
+    public EventCallback<ElementReference> OnElementReferenceChanged { get; set; }
 
-    private PopperJSObject? PopperJSObject =>
+    public ElementReference Ref
+    {
+        get => elementReference;
+        set
+        {
+            elementReference = value;
+            _ = OnElementReferenceChanged.InvokeAsync(elementReference);
+        }
+    }
+
+    private ElementReference elementReference;
+    private IJSObjectReference? jsObjectReference;
+
+    private PopperJSObject? JSObject =>
         Popper.Anchor.HasValue
             ? new(
                 AlignOffset,
                 SideOffset,
-                elementReference,
+                Ref,
                 Popper.Anchor.Value,
                 Popper.Arrow,
                 Align.ToString().ToLowerInvariant(),
@@ -58,7 +74,7 @@ public partial class PopperContent(IJSRuntime jsRuntime) : ComponentBase, IAsync
             await jsRuntime.InvokeVoidAsync("popper.dispose", jsObjectReference);
             jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
                 "popper.create",
-                PopperJSObject
+                JSObject
             );
             return;
         }
@@ -70,7 +86,7 @@ public partial class PopperContent(IJSRuntime jsRuntime) : ComponentBase, IAsync
 
         jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
             "popper.create",
-            PopperJSObject
+            JSObject
         );
     }
 

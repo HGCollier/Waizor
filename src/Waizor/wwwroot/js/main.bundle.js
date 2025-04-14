@@ -1604,11 +1604,12 @@
       return trap;
     };
 
-    const create$2 = (element, dotNetObject) => {
+    const create$2 = ({ element, dotNetObject, clickOutsideDeactivates, }) => {
         const trap = createFocusTrap(element, {
             onDeactivate: () => {
                 dotNetObject.invokeMethodAsync("Deactivate");
             },
+            clickOutsideDeactivates,
         });
         trap.activate();
         return trap;
@@ -3290,6 +3291,16 @@
     const create = ({ side, align, anchor, arrow: arrow$1, content, sideOffset, alignOffset, arrowPadding, }) => {
         const desiredPlacement = (side +
             (align !== "center" ? "-" + align : ""));
+        console.log({
+            side,
+            align,
+            anchor,
+            arrow: arrow$1,
+            content,
+            sideOffset,
+            alignOffset,
+            arrowPadding,
+        });
         const cleanup = autoUpdate(anchor, content, () => {
             var _a, _b;
             const arrowSize = getSize(arrow$1);
@@ -3330,6 +3341,7 @@
         };
     };
     const dispose = (popper) => {
+        console.log("dispose");
         popper.cleanup();
     };
     const transformOrigin = (options) => ({
