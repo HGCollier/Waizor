@@ -1,0 +1,8 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+<div style="@($"position: relative; width: 100%; padding-bottom: {100 / Ratio}%")">
+    <div style="position: absolute; inset: 0;">
+        @ChildContent
+    </div>
+</div>

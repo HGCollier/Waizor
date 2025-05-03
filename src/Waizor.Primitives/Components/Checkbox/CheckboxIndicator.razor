@@ -1,0 +1,10 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+@typeparam T
+
+@if (Checkbox.Checked == null || Checkbox.Checked == true)
+{
+    <span data-checked="@Checkbox.Checked" class="@Class">
+        @ChildContent
+    </span>
+}

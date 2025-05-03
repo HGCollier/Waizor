@@ -1,0 +1,19 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits SlotBase
+@{
+    RenderFragment trigger = AsChild ? ChildContent(Attributes) :
+        @<button type="button" @attributes="Attributes" @ref="elementReference">
+            @ChildContent(Attributes)
+        </button>;
+}
+
+@if (Popover.HasCustomAnchor)
+{
+    @trigger
+}
+else
+{
+    <PopperAnchor AsChild For="@(() => elementReference)">
+        @trigger
+    </PopperAnchor>
+}

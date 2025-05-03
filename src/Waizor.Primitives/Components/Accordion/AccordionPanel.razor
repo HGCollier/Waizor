@@ -1,0 +1,13 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+<div id="@AccordionItem.PanelId" 
+     role="region" 
+     aria-labelledby="@AccordionItem.TriggerId" 
+     hidden="@(!AccordionItem.Open)" 
+     data-state="@(AccordionItem.State.ToString().ToLowerInvariant())"
+     data-disabled="@AccordionItem.Disabled"
+     data-orientation="@AccordionItem.Accordion.Orientation.ToString().ToLowerInvariant()"
+     class="@Class">
+    @ChildContent
+</div>

@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+@if (!AlertDialog.Open)
+{
+    return;
+}
+
+<Portal>
+    @ChildContent
+</Portal>

@@ -1,0 +1,20 @@
+﻿@namespace Waizor.Primitives.Components
+@using System.Text.Json
+@inherits ComponentBase
+
+@if (elementReference.HasValue)
+{
+    <FocusTrap OnDeactivate="OnDeactivate" ForTrigger="@(() => Popover.TriggerElementReference)" For="@(() => elementReference.Value)" ClickOutsideDeactivates />
+}
+
+<PopperContent OnElementReferenceChanged="OnElementReferenceChanged" 
+               Align="Align"
+               AlignOffset="AlignOffset"
+               Side="Side"
+               ArrowPadding="ArrowPadding"
+               SideOffset="SideOffset"
+               data-state="@Popover.State.ToString().ToLowerInvariant()" 
+               role="dialog" 
+               id="@Id">
+    @ChildContent
+</PopperContent>

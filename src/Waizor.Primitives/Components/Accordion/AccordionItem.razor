@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+<CascadingValue Value="this">
+    <div class="@Class" 
+         data-state="@(State.ToString().ToLowerInvariant())" 
+         data-disabled="@Disabled" 
+         data-orientation="@Accordion.Orientation.ToString().ToLowerInvariant()">
+        @ChildContent
+    </div>
+</CascadingValue>

@@ -1,0 +1,10 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+<RovingFocus>
+    <CascadingValue Value="this">
+        <div id="@Id" class="@Class" data-orientation="@Orientation.ToString().ToLowerInvariant()">
+            @ChildContent
+        </div>
+    </CascadingValue>
+</RovingFocus>

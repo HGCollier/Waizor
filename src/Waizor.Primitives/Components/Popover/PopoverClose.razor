@@ -1,0 +1,13 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits SlotBase
+
+@if (AsChild)
+{
+    @ChildContent(Attributes)
+}
+else
+{
+    <button type="button" @attributes="Attributes">
+        @ChildContent(Attributes)
+    </button>
+}

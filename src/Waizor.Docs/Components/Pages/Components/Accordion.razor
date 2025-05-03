@@ -1,5 +1,4 @@
 ﻿@page "/accordion"
-@using System.Text.Json
 
 <PageTitle>
     Accordion
@@ -9,14 +8,14 @@
     Accordion
 </h1>
 
-<Waizor.Components.Accordion Type="AccordionType.Single" Collapsible="true" DefaultValue="item-1">
-    <Waizor.Components.AccordionItem Value="item-1">
-        <Waizor.Components.AccordionHeader>
-            <Waizor.Components.AccordionTrigger>
+<Waizor.Primitives.Components.Accordion Type="AccordionType.Single" Collapsible="true" DefaultValue="item-1">
+    <Waizor.Primitives.Components.AccordionItem Value="item-1">
+        <Waizor.Primitives.Components.AccordionHeader>
+            <Waizor.Primitives.Components.AccordionTrigger>
                 Personal information
-            </Waizor.Components.AccordionTrigger>
-        </Waizor.Components.AccordionHeader>
-        <Waizor.Components.AccordionPanel>
+            </Waizor.Primitives.Components.AccordionTrigger>
+        </Waizor.Primitives.Components.AccordionHeader>
+        <Waizor.Primitives.Components.AccordionPanel>
             <fieldset>
                 <p>
                     <label for="cufc1">Name<span aria-hidden="true">*</span>:</label>
@@ -43,16 +42,16 @@
                     <input type="text" value="" name="City_Province" id="cufc6">
                 </p>
             </fieldset>
-        </Waizor.Components.AccordionPanel>
-    </Waizor.Components.AccordionItem>
+        </Waizor.Primitives.Components.AccordionPanel>
+    </Waizor.Primitives.Components.AccordionItem>
 
-    <Waizor.Components.AccordionItem Value="item-2">
-        <Waizor.Components.AccordionHeader>
-            <Waizor.Components.AccordionTrigger>
+    <Waizor.Primitives.Components.AccordionItem Value="item-2">
+        <Waizor.Primitives.Components.AccordionHeader>
+            <Waizor.Primitives.Components.AccordionTrigger>
                 Billing Address
-            </Waizor.Components.AccordionTrigger>
-        </Waizor.Components.AccordionHeader>
-        <Waizor.Components.AccordionPanel>
+            </Waizor.Primitives.Components.AccordionTrigger>
+        </Waizor.Primitives.Components.AccordionHeader>
+        <Waizor.Primitives.Components.AccordionPanel>
             <fieldset>
                 <p>
                     <label for="b-add1">Address 1:</label>
@@ -75,16 +74,16 @@
                     <input type="text" name="b-zip" id="b-zip">
                 </p>
             </fieldset>
-        </Waizor.Components.AccordionPanel>
-    </Waizor.Components.AccordionItem>
+        </Waizor.Primitives.Components.AccordionPanel>
+    </Waizor.Primitives.Components.AccordionItem>
 
-    <Waizor.Components.AccordionItem Value="item-3">
-        <Waizor.Components.AccordionHeader>
-            <Waizor.Components.AccordionTrigger>
+    <Waizor.Primitives.Components.AccordionItem Value="item-3">
+        <Waizor.Primitives.Components.AccordionHeader>
+            <Waizor.Primitives.Components.AccordionTrigger>
                 Shipping Address
-            </Waizor.Components.AccordionTrigger>
-        </Waizor.Components.AccordionHeader>
-        <Waizor.Components.AccordionPanel>
+            </Waizor.Primitives.Components.AccordionTrigger>
+        </Waizor.Primitives.Components.AccordionHeader>
+        <Waizor.Primitives.Components.AccordionPanel>
             <fieldset>
                 <p>
                     <label for="m-add1">Address 1:</label>
@@ -107,6 +106,6 @@
                     <input type="text" name="m-zip" id="m-zip">
                 </p>
             </fieldset>
-        </Waizor.Components.AccordionPanel>
-    </Waizor.Components.AccordionItem>
-</Waizor.Components.Accordion>
+        </Waizor.Primitives.Components.AccordionPanel>
+    </Waizor.Primitives.Components.AccordionItem>
+</Waizor.Primitives.Components.Accordion>

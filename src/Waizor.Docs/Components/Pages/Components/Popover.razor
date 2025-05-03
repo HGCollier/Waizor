@@ -6,16 +6,16 @@
 
 <div style="min-height: 25vh"></div>
 
-<Waizor.Components.Popover>
+<Waizor.Primitives.Components.Popover>
     <div style="text-align: center">
-        <Waizor.Components.PopoverTrigger AsChild For="@(() => triggerElementReference)">
+        <Waizor.Primitives.Components.PopoverTrigger AsChild For="@(() => triggerElementReference)">
             <button type="button" @ref="triggerElementReference" @attributes="context">
                 ⚙️
             </button>
-        </Waizor.Components.PopoverTrigger>
+        </Waizor.Primitives.Components.PopoverTrigger>
     </div>
-    <Waizor.Components.PopoverPortal>
-        <Waizor.Components.PopoverContent Align="align" Side="side">
+    <Waizor.Primitives.Components.PopoverPortal>
+        <Waizor.Primitives.Components.PopoverContent Align="align" Side="side">
             <div style="border: 1px solid #ccc">
                 <p>
                     Dimensions
@@ -44,16 +44,16 @@
                     </label>
                     <input id="maxHeight" value="none" />
                 </fieldset>
-                <Waizor.Components.Popover>
+                <Waizor.Primitives.Components.Popover>
                     <div style="text-align: center">
-                        <Waizor.Components.PopoverTrigger AsChild For="@(() => nestedTriggerElementReference)">
+                        <Waizor.Primitives.Components.PopoverTrigger AsChild For="@(() => nestedTriggerElementReference)">
                             <button type="button" @ref="nestedTriggerElementReference" @attributes="context">
                                 ⚙️
                             </button>
-                        </Waizor.Components.PopoverTrigger>
+                        </Waizor.Primitives.Components.PopoverTrigger>
                     </div>
-                    <Waizor.Components.PopoverPortal>
-                        <Waizor.Components.PopoverContent Align="Align.Start" Side="Side.Right">
+                    <Waizor.Primitives.Components.PopoverPortal>
+                        <Waizor.Primitives.Components.PopoverContent Align="Align.Start" Side="Side.Right">
                             <div style="border: 1px solid #ccc">
                                 <p>
                                     Dimensions
@@ -83,21 +83,21 @@
                                     <input id="maxHeight" value="none" />
                                 </fieldset>
                             </div>
-                            <Waizor.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
+                            <Waizor.Primitives.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
                                 ✖️
-                            </Waizor.Components.PopoverClose>
-                            <Waizor.Components.PopoverArrow />
-                        </Waizor.Components.PopoverContent>
-                    </Waizor.Components.PopoverPortal>
-                </Waizor.Components.Popover>
+                            </Waizor.Primitives.Components.PopoverClose>
+                            <Waizor.Primitives.Components.PopoverArrow />
+                        </Waizor.Primitives.Components.PopoverContent>
+                    </Waizor.Primitives.Components.PopoverPortal>
+                </Waizor.Primitives.Components.Popover>
             </div>
-            <Waizor.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
+            <Waizor.Primitives.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
                 ✖️
-            </Waizor.Components.PopoverClose>
-            <Waizor.Components.PopoverArrow />
-        </Waizor.Components.PopoverContent>
-    </Waizor.Components.PopoverPortal>
-</Waizor.Components.Popover>
+            </Waizor.Primitives.Components.PopoverClose>
+            <Waizor.Primitives.Components.PopoverArrow />
+        </Waizor.Primitives.Components.PopoverContent>
+    </Waizor.Primitives.Components.PopoverPortal>
+</Waizor.Primitives.Components.Popover>
 
 <div style="position: absolute; top: 0; right: 0;">
     <fieldset style="margin-bottom: 1rem">

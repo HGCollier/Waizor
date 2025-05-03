@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor", "src\Waizor\Waizor.csproj", "{786599A9-F7B5-9C8E-B436-828512C71963}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor.Docs", "src\Waizor.Docs\Waizor.Docs.csproj", "{6C56D4E9-4133-BEF6-D2E9-8D82E0F59DFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waizor.Primitives", "src\Waizor.Primitives\Waizor.Primitives.csproj", "{44AF8B41-8DD3-A79B-74CA-0DE3FB92606F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{786599A9-F7B5-9C8E-B436-828512C71963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{786599A9-F7B5-9C8E-B436-828512C71963}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{786599A9-F7B5-9C8E-B436-828512C71963}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{786599A9-F7B5-9C8E-B436-828512C71963}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C56D4E9-4133-BEF6-D2E9-8D82E0F59DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C56D4E9-4133-BEF6-D2E9-8D82E0F59DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C56D4E9-4133-BEF6-D2E9-8D82E0F59DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C56D4E9-4133-BEF6-D2E9-8D82E0F59DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44AF8B41-8DD3-A79B-74CA-0DE3FB92606F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44AF8B41-8DD3-A79B-74CA-0DE3FB92606F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44AF8B41-8DD3-A79B-74CA-0DE3FB92606F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44AF8B41-8DD3-A79B-74CA-0DE3FB92606F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

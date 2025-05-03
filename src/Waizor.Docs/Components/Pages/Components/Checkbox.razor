@@ -5,8 +5,8 @@
 </PageTitle>
 
 <label>
-    <Waizor.Components.Checkbox Required Name="Test" T="string">
-        <Waizor.Components.CheckboxIndicator T="string">
+    <Waizor.Primitives.Components.Checkbox Required Name="Test" T="string">
+        <Waizor.Primitives.Components.CheckboxIndicator T="string">
             @if (context.HasFlag(CheckboxState.Indeterminate))
             {
                 @("➖")
@@ -15,7 +15,7 @@
             {
                 @("✔️")
             }
-        </Waizor.Components.CheckboxIndicator>
-    </Waizor.Components.Checkbox>
+        </Waizor.Primitives.Components.CheckboxIndicator>
+    </Waizor.Primitives.Components.Checkbox>
     Enable notifications
 </label>

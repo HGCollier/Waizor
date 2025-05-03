@@ -1,8 +1,0 @@
-﻿@namespace Waizor.Components
-@inherits ComponentBase
-
-<FocusTrap For="@(() => _elementReference)" OnDeactivate="OnDeactivate" />
-
-<div @ref="_elementReference" id="@Id" aria-modal="true" role="alertdialog" aria-labelledby="@AlertDialog.TitleId" aria-describedby="@AlertDialog.DescriptionId" class="@Class">
-    @ChildContent
-</div>
