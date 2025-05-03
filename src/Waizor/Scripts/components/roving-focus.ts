@@ -94,6 +94,13 @@ class RovingFocus {
             this.elements.splice(index, 1);
         }
     };
+
+    dispose = () => {
+        this.elements.forEach((element) => {
+            element.removeEventListener("keydown", this.onKeyDown);
+            element.removeEventListener("focus", this.onFocus);
+        });
+    };
 }
 
 export { RovingFocus };

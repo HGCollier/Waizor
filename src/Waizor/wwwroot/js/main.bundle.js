@@ -3418,6 +3418,12 @@
                     this.elements.splice(index, 1);
                 }
             };
+            this.dispose = () => {
+                this.elements.forEach((element) => {
+                    element.removeEventListener("keydown", this.onKeyDown);
+                    element.removeEventListener("focus", this.onFocus);
+                });
+            };
             this.orientation = orientation;
         }
     }
