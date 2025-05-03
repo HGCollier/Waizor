@@ -15,7 +15,7 @@
                 Personal information
             </Waizor.Primitives.Components.AccordionTrigger>
         </Waizor.Primitives.Components.AccordionHeader>
-        <Waizor.Primitives.Components.AccordionPanel>
+        <Waizor.Primitives.Components.AccordionContent>
             <fieldset>
                 <p>
                     <label for="cufc1">Name<span aria-hidden="true">*</span>:</label>
@@ -42,7 +42,7 @@
                     <input type="text" value="" name="City_Province" id="cufc6">
                 </p>
             </fieldset>
-        </Waizor.Primitives.Components.AccordionPanel>
+        </Waizor.Primitives.Components.AccordionContent>
     </Waizor.Primitives.Components.AccordionItem>
 
     <Waizor.Primitives.Components.AccordionItem Value="item-2">
@@ -51,7 +51,7 @@
                 Billing Address
             </Waizor.Primitives.Components.AccordionTrigger>
         </Waizor.Primitives.Components.AccordionHeader>
-        <Waizor.Primitives.Components.AccordionPanel>
+        <Waizor.Primitives.Components.AccordionContent>
             <fieldset>
                 <p>
                     <label for="b-add1">Address 1:</label>
@@ -74,7 +74,7 @@
                     <input type="text" name="b-zip" id="b-zip">
                 </p>
             </fieldset>
-        </Waizor.Primitives.Components.AccordionPanel>
+        </Waizor.Primitives.Components.AccordionContent>
     </Waizor.Primitives.Components.AccordionItem>
 
     <Waizor.Primitives.Components.AccordionItem Value="item-3">
@@ -83,7 +83,7 @@
                 Shipping Address
             </Waizor.Primitives.Components.AccordionTrigger>
         </Waizor.Primitives.Components.AccordionHeader>
-        <Waizor.Primitives.Components.AccordionPanel>
+        <Waizor.Primitives.Components.AccordionContent>
             <fieldset>
                 <p>
                     <label for="m-add1">Address 1:</label>
@@ -106,6 +106,10 @@
                     <input type="text" name="m-zip" id="m-zip">
                 </p>
             </fieldset>
-        </Waizor.Primitives.Components.AccordionPanel>
+        </Waizor.Primitives.Components.AccordionContent>
     </Waizor.Primitives.Components.AccordionItem>
 </Waizor.Primitives.Components.Accordion>
+
+@code {
+    ElementReference personalInformationAccordionTrigger;
+}

@@ -19,7 +19,7 @@ public partial class AccordionItem : ComponentBase
     [CascadingParameter]
     public required Accordion Accordion { get; set; }
 
-    public string PanelId { get; set; } = Guid.NewGuid().ToString();
+    public string ContentId { get; set; } = Guid.NewGuid().ToString();
     public string TriggerId { get; set; } = Guid.NewGuid().ToString();
 
     public bool Open => Accordion.Value.Contains(Value);

@@ -2,7 +2,7 @@
 
 namespace Waizor.Primitives.Components;
 
-public partial class AccordionPanel : ComponentBase
+public partial class AccordionContent : ComponentBase
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -14,8 +14,7 @@ public partial class AccordionPanel : ComponentBase
     public string? Class { get; set; }
 
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    protected override void OnParametersSet() =>
-        AccordionItem.PanelId = Id ?? Guid.NewGuid().ToString();
+    protected override void OnParametersSet() => AccordionItem.ContentId = Id;
 }

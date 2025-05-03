@@ -1,0 +1,46 @@
+﻿@page "/collapsible"
+
+<PageTitle>
+	Collapsible
+</PageTitle>
+
+<h1>
+	Collapsible
+</h1>
+
+<Waizor.Primitives.Components.Collapsible @bind-Open="open">
+	<div>
+		<span>
+			@@HGCollier starred 3 repositories
+		</span>
+		<Waizor.Primitives.Components.CollapsibleTrigger AsChild>
+			<button @attributes="context">
+				@(open ? "✖️" : "↕️")
+			</button>
+		</Waizor.Primitives.Components.CollapsibleTrigger>
+	</div>
+
+	<div>
+		<span>
+			@@HGCollier/Waizor
+		</span>
+	</div>
+
+	<Waizor.Primitives.Components.CollapsibleContent>
+		<div>
+			<span>
+				@@radix-ui/primitives
+			</span>
+		</div>
+		<div>
+			<span>
+				@@shadcn-ui/ui
+			</span>
+		</div>
+	</Waizor.Primitives.Components.CollapsibleContent>
+</Waizor.Primitives.Components.Collapsible>
+
+@code {
+	private bool open;
+}
+

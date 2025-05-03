@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits ComponentBase
+
+<div id="@Collapsible.ContentId" 
+     role="region" 
+     hidden="@(!Collapsible.Open)"
+     data-state="@(Collapsible.State.ToString().ToLowerInvariant())"
+     data-disabled="@Collapsible.Disabled"
+     class="@Class">
+    @ChildContent
+</div>
