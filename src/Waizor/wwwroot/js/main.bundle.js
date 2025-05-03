@@ -1625,7 +1625,10 @@
                     if (!(event.target instanceof HTMLElement)) {
                         return allowOutsideClick;
                     }
-                    return event.target === trigger && !allowOutsideClick;
+                    if (allowOutsideClick) {
+                        return true;
+                    }
+                    return event.target === trigger;
                 },
                 clickOutsideDeactivates: (event) => {
                     if (!(event.target instanceof HTMLElement)) {
