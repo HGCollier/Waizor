@@ -1,0 +1,48 @@
+﻿@page "/dialog"
+
+<PageTitle>
+    Dialog
+</PageTitle>
+
+<Waizor.Primitives.Components.Dialog>
+    <Waizor.Primitives.Components.DialogTrigger AsChild>
+        <button type="button" @attributes="context">
+            Edit profile
+        </button>
+    </Waizor.Primitives.Components.DialogTrigger>
+    <Waizor.Primitives.Components.DialogPortal>
+        <Waizor.Primitives.Components.DialogOverlay />
+        <Waizor.Primitives.Components.DialogContent>
+            <Waizor.Primitives.Components.DialogTitle>
+                Edit profile
+            </Waizor.Primitives.Components.DialogTitle>
+            <Waizor.Primitives.Components.DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+            </Waizor.Primitives.Components.DialogDescription>
+			<fieldset>
+				<label for="name">
+					Name
+				</label>
+				<input id="name" value="Halden Collier" />
+			</fieldset>
+			<fieldset>
+				<label for="username">
+					Username
+				</label>
+				<input id="username" value="@@HGCollier" />
+			</fieldset>
+            <div>
+				<Waizor.Primitives.Components.DialogClose AsChild>
+					<button type="button" @attributes="context">
+						Save changes
+					</button>
+				</Waizor.Primitives.Components.DialogClose>
+			</div>
+			<Waizor.Primitives.Components.DialogClose AsChild>
+				<button aria-label="Close" type="button" @attributes="context">
+					✖️
+				</button>
+			</Waizor.Primitives.Components.DialogClose>
+        </Waizor.Primitives.Components.DialogContent>
+    </Waizor.Primitives.Components.DialogPortal>
+</Waizor.Primitives.Components.Dialog>

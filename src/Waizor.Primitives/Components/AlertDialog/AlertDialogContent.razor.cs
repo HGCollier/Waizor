@@ -1,22 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Waizor.Primitives.Components.Internal;
 
 namespace Waizor.Primitives.Components;
 
-public partial class AlertDialogContent : ComponentBase
+public partial class AlertDialogContent : DialogContentImplementation
 {
-    [Parameter]
-    public required RenderFragment ChildContent { get; set; }
-
-    [Parameter]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-
-    [Parameter]
-    public string? Class { get; set; }
-
-    [CascadingParameter]
-    public required AlertDialog AlertDialog { get; set; }
-
-    private ElementReference _elementReference;
-
-    private void OnDeactivate() => AlertDialog.Hide();
+    public AlertDialogContent() =>
+        AdditionalAttributes = new Dictionary<string, object>() { { "role", "alertdialog" } };
 }

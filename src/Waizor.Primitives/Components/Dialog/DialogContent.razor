@@ -1,7 +1,7 @@
 ﻿@namespace Waizor.Primitives.Components
 @inherits DialogContentImplementation
 
-<FocusTrap For="@(() => ElementReference)" OnDeactivate="OnDeactivate" />
+<FocusTrap For="@(() => ElementReference)" OnDeactivate="OnDeactivate" ClickOutsideDeactivates />
 
 @{
     base.BuildRenderTree(__builder);

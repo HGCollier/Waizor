@@ -2,7 +2,7 @@
 using Waizor.Primitives.Abstractions;
 using Waizor.Primitives.Exceptions;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 public partial class PopperAnchor : SlotBase
 {

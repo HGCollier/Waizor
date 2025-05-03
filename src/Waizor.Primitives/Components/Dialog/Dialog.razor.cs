@@ -2,7 +2,7 @@
 
 namespace Waizor.Primitives.Components;
 
-public partial class AlertDialog : ComponentBase
+public partial class Dialog : ComponentBase, IDialog
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }

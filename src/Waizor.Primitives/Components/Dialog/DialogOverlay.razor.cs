@@ -2,7 +2,7 @@
 
 namespace Waizor.Primitives.Components;
 
-public partial class AlertDialogBackdrop : ComponentBase
+public partial class DialogOverlay : ComponentBase
 {
     [Parameter]
     public string? Class { get; set; }

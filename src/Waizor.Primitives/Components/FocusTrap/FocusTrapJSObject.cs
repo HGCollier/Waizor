@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 internal record FocusTrapJSObject(
     ElementReference Element,

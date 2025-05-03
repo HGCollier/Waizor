@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisposable
 {

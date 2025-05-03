@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 public partial class PopperArrow : ComponentBase
 {

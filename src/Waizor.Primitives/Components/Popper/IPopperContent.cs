@@ -1,6 +1,6 @@
 ﻿using Waizor.Primitives.Enums;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 internal interface IPopperContent
 {

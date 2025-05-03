@@ -3,7 +3,7 @@ using Waizor.Primitives.Abstractions;
 
 namespace Waizor.Primitives.Components;
 
-public partial class AlertDialogClose : SlotBase
+public partial class DialogTrigger : SlotBase
 {
     [Parameter]
     public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -12,7 +12,7 @@ public partial class AlertDialogClose : SlotBase
     public string? Class { get; set; }
 
     [CascadingParameter]
-    public required AlertDialog AlertDialog { get; set; }
+    public required IDialog Dialog { get; set; }
 
     protected override Dictionary<string, object> Attributes
     {
@@ -30,5 +30,5 @@ public partial class AlertDialogClose : SlotBase
         }
     }
 
-    private void OnClick() => AlertDialog.Hide();
+    private void OnClick() => Dialog.Show();
 }

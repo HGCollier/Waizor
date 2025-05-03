@@ -12,3 +12,10 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "namespace",
     Target = "~N:Waizor.Primitives.Components"
 )]
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0130:Namespace does not match folder structure",
+    Justification = "<Pending>",
+    Scope = "namespace",
+    Target = "~N:Waizor.Primitives.Components.Internal"
+)]

@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using Waizor.Primitives.Enums;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 public partial class PopperContent(IJSRuntime jsRuntime)
     : ComponentBase,

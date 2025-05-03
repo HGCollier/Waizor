@@ -5,25 +5,32 @@
 </PageTitle>
 
 <Waizor.Primitives.Components.AlertDialog>
-    <Waizor.Primitives.Components.AlertDialogTrigger>
-        Discard draft
+    <Waizor.Primitives.Components.AlertDialogTrigger AsChild>
+        <button type="button" @attributes="context">
+            Delete account
+        </button>
     </Waizor.Primitives.Components.AlertDialogTrigger>
     <Waizor.Primitives.Components.AlertDialogPortal>
-        <Waizor.Primitives.Components.AlertDialogBackdrop />
+        <Waizor.Primitives.Components.AlertDialogOverlay />
         <Waizor.Primitives.Components.AlertDialogContent>
             <Waizor.Primitives.Components.AlertDialogTitle>
-                Discard draft?
+                Are you absolutely sure?
             </Waizor.Primitives.Components.AlertDialogTitle>
             <Waizor.Primitives.Components.AlertDialogDescription>
-                You can’t undo this action.
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
             </Waizor.Primitives.Components.AlertDialogDescription>
             <div>
-                <Waizor.Primitives.Components.AlertDialogClose>
-                    Cancel
-                </Waizor.Primitives.Components.AlertDialogClose>
-                <Waizor.Primitives.Components.AlertDialogClose>
-                    Discard
-                </Waizor.Primitives.Components.AlertDialogClose>
+                <Waizor.Primitives.Components.AlertDialogCancel AsChild OnClick="@(() => Console.WriteLine("Cancel"))">
+                    <button type="button" @attributes="context">
+                        Cancel
+                    </button>
+                </Waizor.Primitives.Components.AlertDialogCancel>
+                <Waizor.Primitives.Components.AlertDialogAction AsChild OnClick="@(() => Console.WriteLine("Delete account"))">
+                    <button type="button" @attributes="context">
+                        Yes, delete account
+                    </button>
+                </Waizor.Primitives.Components.AlertDialogAction>
             </div>
         </Waizor.Primitives.Components.AlertDialogContent>
     </Waizor.Primitives.Components.AlertDialogPortal>

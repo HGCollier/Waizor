@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Waizor.Primitives.Components.Internal;
 using Waizor.Primitives.Enums;
 
 namespace Waizor.Primitives.Components;

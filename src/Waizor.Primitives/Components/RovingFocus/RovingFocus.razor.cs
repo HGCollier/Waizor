@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using Waizor.Primitives.Enums;
 
-namespace Waizor.Primitives.Components;
+namespace Waizor.Primitives.Components.Internal;
 
 public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisposable
 {
