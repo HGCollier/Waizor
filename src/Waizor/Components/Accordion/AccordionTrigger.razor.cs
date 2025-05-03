@@ -20,5 +20,6 @@ public partial class AccordionTrigger : ComponentBase
 
     protected override void OnParametersSet() => AccordionItem.PanelId = Id;
 
-    private void OnClick() => AccordionItem.Accordion.Toggle(AccordionItem.Value);
+    private async Task OnClickAsync() =>
+        await AccordionItem.Accordion.ToggleAsync(AccordionItem.Value);
 }

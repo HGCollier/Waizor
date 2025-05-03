@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Waizor.Enums;
 
 namespace Waizor.Components;
@@ -18,6 +19,9 @@ public partial class Accordion : ComponentBase
     public AccordionType Type { get; set; } = AccordionType.Single;
 
     [Parameter]
+    public string? DefaultValue { get; set; }
+
+    [Parameter]
     public List<string> Value { get; set; } = [];
 
     [Parameter]
@@ -32,7 +36,24 @@ public partial class Accordion : ComponentBase
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    public void Toggle(string value)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        if (DefaultValue is null)
+        {
+            return;
+        }
+
+        Value = [DefaultValue];
+        await ValueChanged.InvokeAsync(Value);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task ToggleAsync(string value)
     {
         if (!Collapsible && Value.Count == 1 && Value.Contains(value))
         {
@@ -42,16 +63,20 @@ public partial class Accordion : ComponentBase
         if (Value.Contains(value))
         {
             _ = Value.Remove(value);
-            StateHasChanged();
+            await ValueChanged.InvokeAsync(Value);
+            await InvokeAsync(StateHasChanged);
             return;
         }
 
         if (Type == AccordionType.Single)
         {
             Value.Clear();
+            await ValueChanged.InvokeAsync(Value);
+            await InvokeAsync(StateHasChanged);
         }
 
         Value.Add(value);
-        StateHasChanged();
+        await ValueChanged.InvokeAsync(Value);
+        await InvokeAsync(StateHasChanged);
     }
 }

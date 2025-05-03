@@ -12,7 +12,7 @@
         data-disabled="@AccordionItem.Disabled"
         data-orientation="@AccordionItem.Accordion.Orientation.ToString().ToLowerInvariant()"
         disabled="@AccordionItem.Disabled"
-        @onclick="OnClick"
+        @onclick="OnClickAsync"
         @ref="elementReference">
     @ChildContent 
 </button>
