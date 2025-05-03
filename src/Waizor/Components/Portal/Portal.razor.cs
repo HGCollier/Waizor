@@ -3,7 +3,7 @@ using Waizor.Exceptions;
 
 namespace Waizor.Components;
 
-public partial class Portal : ComponentBase
+public partial class Portal : ComponentBase, IDisposable
 {
     [Parameter]
     public required RenderFragment ChildContent { get; set; }
@@ -13,6 +13,8 @@ public partial class Portal : ComponentBase
 
     [CascadingParameter]
     public required PortalProvider PortalProvider { get; set; }
+
+    public void Dispose() => PortalProvider.Remove(Id);
 
     protected override void OnInitialized()
     {

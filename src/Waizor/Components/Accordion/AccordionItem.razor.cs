@@ -32,6 +32,7 @@ public partial class AccordionItem : ComponentBase
         {
             return;
         }
+
         Disabled = Accordion.Disabled;
     }
 }

@@ -8,6 +8,7 @@ internal record PopperJSObject(
     ElementReference Content,
     ElementReference Anchor,
     ElementReference? Arrow = null,
+    int ArrowPadding = 0,
     string Align = "center",
     string Side = "bottom"
 );

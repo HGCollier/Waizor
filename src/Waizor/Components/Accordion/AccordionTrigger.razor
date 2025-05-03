@@ -1,6 +1,8 @@
 ﻿@namespace Waizor.Components
 @inherits ComponentBase
 
+<RovingFocusItem For="@(() => elementReference)" />
+
 <button type="button" 
         aria-expanded="@AccordionItem.Open.ToString().ToLower()" 
         aria-controls="@AccordionItem.PanelId" 
@@ -10,6 +12,7 @@
         data-disabled="@AccordionItem.Disabled"
         data-orientation="@AccordionItem.Accordion.Orientation.ToString().ToLowerInvariant()"
         disabled="@AccordionItem.Disabled"
-        @onclick="OnClick">
+        @onclick="OnClick"
+        @ref="elementReference">
     @ChildContent 
 </button>

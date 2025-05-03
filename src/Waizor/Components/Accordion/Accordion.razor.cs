@@ -32,8 +32,6 @@ public partial class Accordion : ComponentBase
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    private ElementReference _elementReference;
-
     public void Toggle(string value)
     {
         if (!Collapsible && Value.Count == 1 && Value.Contains(value))

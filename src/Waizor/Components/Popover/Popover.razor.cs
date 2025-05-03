@@ -16,13 +16,25 @@ public partial class Popover : ComponentBase
     public string ContentId { get; set; } = Guid.NewGuid().ToString();
     public string TriggerId { get; set; } = Guid.NewGuid().ToString();
 
+    public ElementReference TriggerElementReference { get; private set; }
+
     public bool HasCustomAnchor { get; private set; }
 
     public PopoverState State => Open ? PopoverState.Open : PopoverState.Closed;
 
+    public void SetTriggerElementReference(ElementReference triggerElementReference) =>
+        TriggerElementReference = triggerElementReference;
+
     public void CustomAnchorAdd()
     {
         HasCustomAnchor = true;
+
+        StateHasChanged();
+    }
+
+    public void Toggle()
+    {
+        Open = !Open;
 
         StateHasChanged();
     }

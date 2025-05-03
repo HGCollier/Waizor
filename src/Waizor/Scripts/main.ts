@@ -1,9 +1,12 @@
 import { avatar } from "./components/avatar";
-import { focusTrap } from "./components/focus-trap";
-import { rovingFocus } from "./components/roving-focus";
-import { popper } from "./components/popper";
+import { DotNetFocusTrapObject, FocusTrap } from "./components/focus-trap";
+import { DotNetPopperObject, Popper } from "./components/popper";
+import { RovingFocus } from "./components/roving-focus";
+import { Orientation } from "./enums/orientation";
 
-window.focusTrap = focusTrap;
 window.avatar = avatar;
-window.rovingFocus = rovingFocus;
-window.popper = popper;
+window.rovingFocus = (orientation: Orientation) => new RovingFocus(orientation);
+window.focusTrap = (dotNetFocusTrapObject: DotNetFocusTrapObject) =>
+    new FocusTrap(dotNetFocusTrapObject);
+window.popper = (dotNetPopperObject: DotNetPopperObject) =>
+    new Popper(dotNetPopperObject);

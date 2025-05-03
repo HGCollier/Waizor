@@ -6,50 +6,64 @@ namespace Waizor.Components;
 
 public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisposable
 {
-    [Parameter, EditorRequired]
-    public required Func<ElementReference?> For { get; set; }
+    [Parameter]
+    public required RenderFragment ChildContent { get; set; }
 
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
-    private IJSObjectReference? _jsObjectReference;
+    private IJSObjectReference? jsObjectReference;
 
     public async ValueTask DisposeAsync()
     {
-        if (_jsObjectReference == null || jsRuntime == null)
+        await DisposeAsync(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async Task DisposeAsync(bool disposing)
+    {
+        if (jsObjectReference is null)
         {
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("rovingFocus.dispose", _jsObjectReference);
-        await _jsObjectReference.DisposeAsync();
+        await jsObjectReference.InvokeVoidAsync("dispose");
+        await jsObjectReference.DisposeAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (jsRuntime == null)
+        if (firstRender || jsObjectReference is null)
         {
-            return;
-        }
-
-        if (_jsObjectReference != null)
-        {
-            _jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
-                "rovingFocus.update",
-                _jsObjectReference
+            jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
+                "rovingFocus",
+                Orientation
             );
+            await InvokeAsync(StateHasChanged);
             return;
         }
 
-        if (!firstRender)
+        await jsObjectReference.InvokeVoidAsync("update", Orientation);
+    }
+
+    public async Task<bool> TryAddItemAsync(ElementReference elementReference)
+    {
+        if (jsObjectReference is null || jsRuntime is null)
+        {
+            return false;
+        }
+
+        await jsObjectReference.InvokeVoidAsync("addItem", elementReference);
+        return true;
+    }
+
+    public async Task RemoveItemAsync(ElementReference elementReference)
+    {
+        if (jsObjectReference is null || jsRuntime is null)
         {
             return;
         }
 
-        _jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
-            "rovingFocus.create",
-            For(),
-            Orientation
-        );
+        await jsObjectReference.InvokeVoidAsync("removeItem", elementReference);
     }
 }

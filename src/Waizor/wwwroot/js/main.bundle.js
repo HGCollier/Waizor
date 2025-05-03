@@ -1604,109 +1604,40 @@
       return trap;
     };
 
-    const create$2 = ({ element, dotNetObject, clickOutsideDeactivates, }) => {
-        const trap = createFocusTrap(element, {
-            onDeactivate: () => {
-                dotNetObject.invokeMethodAsync("Deactivate");
-            },
-            clickOutsideDeactivates,
-        });
-        trap.activate();
-        return trap;
-    };
-    const dispose$2 = (trap) => {
-        trap.deactivate();
-    };
-    const focusTrap = {
-        create: create$2,
-        dispose: dispose$2,
-    };
-
-    var Orientation;
-    (function (Orientation) {
-        Orientation[Orientation["Horizontal"] = 0] = "Horizontal";
-        Orientation[Orientation["Vertical"] = 1] = "Vertical";
-    })(Orientation || (Orientation = {}));
-
-    const create$1 = (element, orientation) => {
-        const tabbableElements = tabbable(element);
-        return initialize(element, orientation, tabbableElements);
-    };
-    const initialize = (element, orientation, tabbableElements, originalElements) => {
-        let selected = 0;
-        const focusedIndex = tabbableElements.findIndex((x) => document.activeElement === x);
-        if (focusedIndex > -1) {
-            selected = focusedIndex;
-            tabbableElements[focusedIndex].focus();
+    class FocusTrap {
+        constructor({ element, dotNetObject, allowOutsideClick, clickOutsideDeactivates, trigger, }) {
+            this.deactivate = () => {
+                this.trap.deactivate();
+            };
+            this.element = element;
+            this.dotNetObject = dotNetObject;
+            this.allowOutsideClick = allowOutsideClick;
+            this.clickOutsideDeactivates = clickOutsideDeactivates;
+            this.trigger = trigger;
+            const trap = createFocusTrap(element, {
+                onDeactivate: () => {
+                    dotNetObject.invokeMethodAsync("Deactivate");
+                },
+                allowOutsideClick: (event) => {
+                    if (clickOutsideDeactivates) {
+                        return true;
+                    }
+                    if (!(event.target instanceof HTMLElement)) {
+                        return allowOutsideClick;
+                    }
+                    return event.target === trigger && !allowOutsideClick;
+                },
+                clickOutsideDeactivates: (event) => {
+                    if (!(event.target instanceof HTMLElement)) {
+                        return clickOutsideDeactivates;
+                    }
+                    return event.target !== trigger && clickOutsideDeactivates;
+                },
+            });
+            trap.activate();
+            this.trap = trap;
         }
-        let focusedElement = tabbableElements[selected];
-        const onKeyDown = (event) => {
-            if (!tabbableElements.some((x) => x === event.target)) {
-                return;
-            }
-            const isVertical = orientation === Orientation.Vertical;
-            const isPrevKey = event.key === "ArrowUp" || event.key === "ArrowLeft";
-            const isNextKey = event.key === "ArrowDown" || event.key === "ArrowRight";
-            const isValidKey = (isVertical &&
-                (event.key === "ArrowUp" || event.key === "ArrowDown")) ||
-                (!isVertical &&
-                    (event.key === "ArrowLeft" || event.key === "ArrowRight"));
-            if (isValidKey) {
-                event.preventDefault();
-                if (isPrevKey) {
-                    selected =
-                        selected === 0 ? tabbableElements.length - 1 : selected - 1;
-                }
-                else if (isNextKey) {
-                    selected =
-                        selected === tabbableElements.length - 1 ? 0 : selected + 1;
-                }
-                changeFocus(selected);
-            }
-        };
-        const onFocus = (event) => {
-            selected = tabbableElements.findIndex((x) => x === event.target);
-        };
-        const changeFocus = (index) => {
-            focusedElement = tabbableElements[index];
-            focusedElement.focus();
-        };
-        element.addEventListener("keydown", onKeyDown);
-        tabbableElements.forEach((element) => {
-            if (!(element instanceof HTMLElement)) {
-                return;
-            }
-            element.addEventListener("focus", onFocus);
-        });
-        return {
-            element,
-            selected,
-            tabbableElements,
-            originalElements: originalElements !== null && originalElements !== void 0 ? originalElements : tabbableElements,
-            focusedElement,
-            onKeyDown,
-            onFocus,
-            orientation,
-        };
-    };
-    const update = (rovingFocus) => {
-        dispose$1(rovingFocus);
-        return initialize(rovingFocus.element, rovingFocus.orientation, rovingFocus.originalElements.filter((x) => isTabbable(x)), rovingFocus.originalElements);
-    };
-    const dispose$1 = (rovingFocus) => {
-        rovingFocus.element.removeEventListener("keydown", rovingFocus.onKeyDown);
-        rovingFocus.tabbableElements.forEach((element) => {
-            if (!(element instanceof HTMLElement)) {
-                return;
-            }
-            element.removeEventListener("focus", rovingFocus.onFocus);
-        });
-    };
-    const rovingFocus = {
-        create: create$1,
-        update,
-        dispose: dispose$1,
-    };
+    }
 
     /**
      * Custom positioning reference element.
@@ -3288,62 +3219,91 @@
         return size;
     };
 
-    const create = ({ side, align, anchor, arrow: arrow$1, content, sideOffset, alignOffset, arrowPadding, }) => {
-        const desiredPlacement = (side +
-            (align !== "center" ? "-" + align : ""));
-        console.log({
-            side,
-            align,
-            anchor,
-            arrow: arrow$1,
-            content,
-            sideOffset,
-            alignOffset,
-            arrowPadding,
-        });
-        const cleanup = autoUpdate(anchor, content, () => {
-            var _a, _b;
-            const arrowSize = getSize(arrow$1);
-            const arrowWidth = (_a = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.width) !== null && _a !== void 0 ? _a : 0;
-            const arrowHeight = (_b = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.height) !== null && _b !== void 0 ? _b : 0;
-            computePosition(anchor, content, {
-                strategy: "fixed",
-                placement: desiredPlacement,
-                middleware: [
-                    offset({
-                        mainAxis: sideOffset + arrowHeight,
-                        alignmentAxis: alignOffset,
-                    }),
-                    flip(),
-                    shift({ padding: 5 }),
-                    arrow$1 &&
-                        arrow({ element: arrow$1, padding: arrowPadding }),
-                    transformOrigin({ arrowWidth, arrowHeight }),
-                ],
-            }).then(({ x, y, middlewareData }) => {
+    const OPPOSITE_SIDE = {
+        top: "bottom",
+        right: "left",
+        bottom: "top",
+        left: "right",
+    };
+    class Popper {
+        constructor(dotNetPopperObject) {
+            this.alignOffset = 0;
+            this.align = "center";
+            this.sideOffset = 0;
+            this.side = "bottom";
+            this.arrowPadding = 0;
+            this.arrow = null;
+            this.computePosition = () => {
                 var _a, _b;
-                Object.assign(content.style, {
-                    transform: `translate(${x}px, ${y}px)`,
+                const arrowSize = getSize(this.arrow);
+                const arrowWidth = (_a = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.width) !== null && _a !== void 0 ? _a : 0;
+                const arrowHeight = (_b = arrowSize === null || arrowSize === void 0 ? void 0 : arrowSize.height) !== null && _b !== void 0 ? _b : 0;
+                const desiredPlacement = (this.side +
+                    (this.align !== "center" ? "-" + this.align : ""));
+                computePosition(this.anchor, this.content, {
+                    strategy: "fixed",
+                    placement: desiredPlacement,
+                    middleware: [
+                        offset({
+                            mainAxis: this.sideOffset + arrowHeight,
+                            alignmentAxis: this.alignOffset,
+                        }),
+                        flip(),
+                        shift({ padding: 5 }),
+                        this.arrow &&
+                            arrow({
+                                element: this.arrow,
+                                padding: this.arrowPadding,
+                            }),
+                        transformOrigin({ arrowWidth, arrowHeight }),
+                    ],
+                }).then(({ x, y, middlewareData, placement }) => {
+                    Object.assign(this.content.style, {
+                        transform: `translate(${x}px, ${y}px)`,
+                    });
+                    if (this.arrow == null || middlewareData.arrow == null) {
+                        return;
+                    }
+                    const { x: arrowX, y: arrowY } = middlewareData.arrow;
+                    const [side] = getSideAndAlignFromPlacement(placement);
+                    const oppositeSide = OPPOSITE_SIDE[side];
+                    Object.assign(this.arrow.style, {
+                        left: arrowX != null ? `${arrowX}px` : "",
+                        top: arrowY != null ? `${arrowY}px` : "",
+                        bottom: "",
+                        right: "",
+                        [oppositeSide]: 0,
+                        transform: {
+                            top: "translateY(100%)",
+                            right: "translateY(50%) rotate(90deg) translateX(-50%)",
+                            bottom: `rotate(180deg)`,
+                            left: "translateY(50%) rotate(-90deg) translateX(50%)",
+                        }[side],
+                        transformOrigin: {
+                            top: "",
+                            right: "0 0",
+                            bottom: "center 0",
+                            left: "100% 0",
+                        }[side],
+                    });
                 });
-                if (arrow$1 == null) {
-                    return;
-                }
-                const arrowX = (_a = middlewareData.arrow) === null || _a === void 0 ? void 0 : _a.x;
-                const arrowY = (_b = middlewareData.arrow) === null || _b === void 0 ? void 0 : _b.y;
-                Object.assign(arrow$1.style, {
-                    left: `${arrowX}px`,
-                    top: `${arrowY}px`,
-                });
-            });
-        });
-        return {
-            cleanup,
-        };
-    };
-    const dispose = (popper) => {
-        console.log("dispose");
-        popper.cleanup();
-    };
+            };
+            this.update = ({ alignOffset, align, sideOffset, side, arrow, arrowPadding, anchor, }) => {
+                this.alignOffset = alignOffset;
+                this.align = align;
+                this.sideOffset = sideOffset;
+                this.side = side;
+                this.anchor = anchor;
+                this.arrow = arrow;
+                this.arrowPadding = arrowPadding;
+                this.computePosition();
+            };
+            this.content = dotNetPopperObject.content;
+            this.anchor = dotNetPopperObject.anchor;
+            this.update(dotNetPopperObject);
+            this.cleanup = autoUpdate(this.anchor, this.content, this.computePosition);
+        }
+    }
     const transformOrigin = (options) => ({
         name: "transformOrigin",
         options,
@@ -3383,14 +3343,88 @@
         const [side, align = "center"] = placement.split("-");
         return [side, align];
     };
-    const popper = {
-        create,
-        dispose,
-    };
 
-    window.focusTrap = focusTrap;
+    var Orientation;
+    (function (Orientation) {
+        Orientation[Orientation["Horizontal"] = 0] = "Horizontal";
+        Orientation[Orientation["Vertical"] = 1] = "Vertical";
+    })(Orientation || (Orientation = {}));
+
+    class RovingFocus {
+        get tabbableElements() {
+            return this.elements.filter((x) => isTabbable(x));
+        }
+        constructor(orientation) {
+            this.selected = 0;
+            this.elements = [];
+            this.focusedElement = null;
+            this.onKeyDown = (event) => {
+                if (!this.tabbableElements.some((tabbableElement) => tabbableElement === event.target)) {
+                    return;
+                }
+                const isVertical = this.orientation === Orientation.Vertical;
+                const isPrevKey = event.key === "ArrowUp" || event.key === "ArrowLeft";
+                const isNextKey = event.key === "ArrowDown" || event.key === "ArrowRight";
+                const isValidKey = (isVertical &&
+                    (event.key === "ArrowUp" || event.key === "ArrowDown")) ||
+                    (!isVertical &&
+                        (event.key === "ArrowLeft" || event.key === "ArrowRight"));
+                if (isValidKey) {
+                    event.preventDefault();
+                    if (isPrevKey) {
+                        this.selected =
+                            this.selected === 0
+                                ? this.tabbableElements.length - 1
+                                : this.selected - 1;
+                    }
+                    else if (isNextKey) {
+                        this.selected =
+                            this.selected === this.tabbableElements.length - 1
+                                ? 0
+                                : this.selected + 1;
+                    }
+                    this.changeFocus(this.selected);
+                }
+            };
+            this.update = (orientation) => {
+                this.orientation = orientation;
+            };
+            this.onFocus = (event) => {
+                this.selected = this.tabbableElements.findIndex((tabbableElement) => tabbableElement === event.target);
+            };
+            this.changeFocus = (index) => {
+                this.focusedElement = this.tabbableElements[index];
+                this.focusedElement.focus();
+            };
+            this.addItem = (element) => {
+                if (element == null) {
+                    return;
+                }
+                if (this.elements.includes(element)) {
+                    return;
+                }
+                element.addEventListener("focus", this.onFocus);
+                element.addEventListener("keydown", this.onKeyDown);
+                this.elements.push(element);
+            };
+            this.removeItem = (element) => {
+                if (element == null) {
+                    return;
+                }
+                element.removeEventListener("keydown", this.onKeyDown);
+                element.removeEventListener("focus", this.onFocus);
+                const index = this.elements.indexOf(element);
+                if (index > -1) {
+                    this.elements.splice(index, 1);
+                }
+            };
+            this.orientation = orientation;
+        }
+    }
+
     window.avatar = avatar;
-    window.rovingFocus = rovingFocus;
-    window.popper = popper;
+    window.rovingFocus = (orientation) => new RovingFocus(orientation);
+    window.focusTrap = (dotNetFocusTrapObject) => new FocusTrap(dotNetFocusTrapObject);
+    window.popper = (dotNetPopperObject) => new Popper(dotNetPopperObject);
 
 })();

@@ -57,6 +57,7 @@ public partial class PopperContent(IJSRuntime jsRuntime)
                 Ref,
                 Popper.Anchor.Value,
                 Popper.Arrow,
+                ArrowPadding,
                 Align.ToString().ToLowerInvariant(),
                 Side.ToString().ToLowerInvariant()
             )
@@ -64,40 +65,28 @@ public partial class PopperContent(IJSRuntime jsRuntime)
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!Popper.Anchor.HasValue || jsRuntime == null)
+        if (firstRender)
+        {
+            jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>("popper", JSObject);
+            return;
+        }
+
+        if (JSObject is null || jsObjectReference is null)
         {
             return;
         }
 
-        if (jsObjectReference != null)
-        {
-            await jsRuntime.InvokeVoidAsync("popper.dispose", jsObjectReference);
-            jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
-                "popper.create",
-                JSObject
-            );
-            return;
-        }
-
-        if (!firstRender)
-        {
-            return;
-        }
-
-        jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
-            "popper.create",
-            JSObject
-        );
+        await jsObjectReference.InvokeVoidAsync("update", JSObject);
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (jsObjectReference == null || jsRuntime == null)
+        if (jsObjectReference is null)
         {
             return;
         }
 
-        await jsRuntime.InvokeVoidAsync("popper.dispose", jsObjectReference);
+        await jsObjectReference.InvokeVoidAsync("cleanup");
         await jsObjectReference.DisposeAsync();
     }
 }

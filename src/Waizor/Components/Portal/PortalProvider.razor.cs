@@ -15,4 +15,11 @@ public partial class PortalProvider : ComponentBase
 
         StateHasChanged();
     }
+
+    public void Remove(string id)
+    {
+        _ = _ids.Remove(id);
+
+        StateHasChanged();
+    }
 }

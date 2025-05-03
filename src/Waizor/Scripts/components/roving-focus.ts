@@ -1,129 +1,99 @@
 import { FocusableElement, tabbable, isTabbable } from "tabbable";
 import { Orientation } from "../enums/orientation";
 
-interface RovingFocus {
-    element: HTMLElement;
-    selected: number;
-    originalElements: FocusableElement[];
-    tabbableElements: FocusableElement[];
-    focusedElement: FocusableElement;
-    onKeyDown: (event: KeyboardEvent) => void;
-    onFocus: (event: FocusEvent) => void;
+class RovingFocus {
+    selected = 0;
     orientation: Orientation;
-}
 
-const create = (
-    element: HTMLElement,
-    orientation: Orientation
-): RovingFocus => {
-    const tabbableElements = tabbable(element);
+    elements: HTMLElement[] = [];
 
-    return initialize(element, orientation, tabbableElements);
-};
+    focusedElement: FocusableElement | null = null;
 
-const initialize = (
-    element: HTMLElement,
-    orientation: Orientation,
-    tabbableElements: FocusableElement[],
-    originalElements?: FocusableElement[]
-): RovingFocus => {
-    let selected = 0;
-
-    const focusedIndex = tabbableElements.findIndex(
-        (x) => document.activeElement === x
-    );
-    if (focusedIndex > -1) {
-        selected = focusedIndex;
-        tabbableElements[focusedIndex].focus();
+    get tabbableElements() {
+        return this.elements.filter((x) => isTabbable(x));
     }
 
-    let focusedElement = tabbableElements[selected];
+    constructor(orientation: Orientation) {
+        this.orientation = orientation;
+    }
 
-    const onKeyDown = (event: KeyboardEvent) => {
-        if (!tabbableElements.some((x) => x === event.target)) {
+    onKeyDown = (event: KeyboardEvent) => {
+        if (
+            !this.tabbableElements.some(
+                (tabbableElement) => tabbableElement === event.target
+            )
+        ) {
             return;
         }
 
-        const isVertical = orientation === Orientation.Vertical;
+        const isVertical = this.orientation === Orientation.Vertical;
         const isPrevKey = event.key === "ArrowUp" || event.key === "ArrowLeft";
         const isNextKey =
             event.key === "ArrowDown" || event.key === "ArrowRight";
-
         const isValidKey =
             (isVertical &&
                 (event.key === "ArrowUp" || event.key === "ArrowDown")) ||
             (!isVertical &&
                 (event.key === "ArrowLeft" || event.key === "ArrowRight"));
-
         if (isValidKey) {
             event.preventDefault();
-
             if (isPrevKey) {
-                selected =
-                    selected === 0 ? tabbableElements.length - 1 : selected - 1;
+                this.selected =
+                    this.selected === 0
+                        ? this.tabbableElements.length - 1
+                        : this.selected - 1;
             } else if (isNextKey) {
-                selected =
-                    selected === tabbableElements.length - 1 ? 0 : selected + 1;
+                this.selected =
+                    this.selected === this.tabbableElements.length - 1
+                        ? 0
+                        : this.selected + 1;
             }
-
-            changeFocus(selected);
+            this.changeFocus(this.selected);
         }
     };
 
-    const onFocus = (event: FocusEvent) => {
-        selected = tabbableElements.findIndex((x) => x === event.target);
+    update = (orientation: Orientation) => {
+        this.orientation = orientation;
     };
 
-    const changeFocus = (index: number) => {
-        focusedElement = tabbableElements[index];
-        focusedElement.focus();
+    onFocus = (event: FocusEvent) => {
+        this.selected = this.tabbableElements.findIndex(
+            (tabbableElement) => tabbableElement === event.target
+        );
     };
 
-    element.addEventListener("keydown", onKeyDown);
-    tabbableElements.forEach((element: Element) => {
-        if (!(element instanceof HTMLElement)) {
+    changeFocus = (index: number) => {
+        this.focusedElement = this.tabbableElements[index];
+        this.focusedElement.focus();
+    };
+
+    addItem = (element: HTMLElement | null) => {
+        if (element == null) {
             return;
         }
-        element.addEventListener("focus", onFocus);
-    });
 
-    return {
-        element,
-        selected,
-        tabbableElements,
-        originalElements: originalElements ?? tabbableElements,
-        focusedElement,
-        onKeyDown,
-        onFocus,
-        orientation,
-    };
-};
-
-const update = (rovingFocus: RovingFocus): RovingFocus => {
-    dispose(rovingFocus);
-
-    return initialize(
-        rovingFocus.element,
-        rovingFocus.orientation,
-        rovingFocus.originalElements.filter((x) => isTabbable(x)),
-        rovingFocus.originalElements
-    );
-};
-
-const dispose = (rovingFocus: RovingFocus) => {
-    rovingFocus.element.removeEventListener("keydown", rovingFocus.onKeyDown);
-    rovingFocus.tabbableElements.forEach((element: Element) => {
-        if (!(element instanceof HTMLElement)) {
+        if (this.elements.includes(element)) {
             return;
         }
-        element.removeEventListener("focus", rovingFocus.onFocus);
-    });
-};
 
-const rovingFocus = {
-    create,
-    update,
-    dispose,
-};
+        element.addEventListener("focus", this.onFocus);
+        element.addEventListener("keydown", this.onKeyDown);
+        this.elements.push(element);
+    };
 
-export { rovingFocus, type RovingFocus };
+    removeItem = (element: HTMLElement | null) => {
+        if (element == null) {
+            return;
+        }
+
+        element.removeEventListener("keydown", this.onKeyDown);
+        element.removeEventListener("focus", this.onFocus);
+
+        const index = this.elements.indexOf(element);
+        if (index > -1) {
+            this.elements.splice(index, 1);
+        }
+    };
+}
+
+export { RovingFocus };

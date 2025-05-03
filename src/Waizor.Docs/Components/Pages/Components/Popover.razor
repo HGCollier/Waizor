@@ -15,7 +15,7 @@
         </Waizor.Components.PopoverTrigger>
     </div>
     <Waizor.Components.PopoverPortal>
-        <Waizor.Components.PopoverContent Align="Align.Center" Side="Side.Bottom">
+        <Waizor.Components.PopoverContent Align="align" Side="side">
             <div style="border: 1px solid #ccc">
                 <p>
                     Dimensions
@@ -44,6 +44,52 @@
                     </label>
                     <input id="maxHeight" value="none" />
                 </fieldset>
+                <Waizor.Components.Popover>
+                    <div style="text-align: center">
+                        <Waizor.Components.PopoverTrigger AsChild For="@(() => nestedTriggerElementReference)">
+                            <button type="button" @ref="nestedTriggerElementReference" @attributes="context">
+                                ⚙️
+                            </button>
+                        </Waizor.Components.PopoverTrigger>
+                    </div>
+                    <Waizor.Components.PopoverPortal>
+                        <Waizor.Components.PopoverContent Align="Align.Start" Side="Side.Right">
+                            <div style="border: 1px solid #ccc">
+                                <p>
+                                    Dimensions
+                                </p>
+                                <fieldset>
+                                    <label for="width">
+                                        Width
+                                    </label>
+                                    <input id="width" value="100%" />
+                                </fieldset>
+                                <fieldset>
+                                    <label for="maxWidth">
+                                        Max. width
+                                    </label>
+                                    <input id="maxWidth" value="300px" />
+                                </fieldset>
+                                <fieldset>
+                                    <label for="height">
+                                        Height
+                                    </label>
+                                    <input id="height" value="25px" />
+                                </fieldset>
+                                <fieldset>
+                                    <label for="maxHeight">
+                                        Max. height
+                                    </label>
+                                    <input id="maxHeight" value="none" />
+                                </fieldset>
+                            </div>
+                            <Waizor.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
+                                ✖️
+                            </Waizor.Components.PopoverClose>
+                            <Waizor.Components.PopoverArrow />
+                        </Waizor.Components.PopoverContent>
+                    </Waizor.Components.PopoverPortal>
+                </Waizor.Components.Popover>
             </div>
             <Waizor.Components.PopoverClose style="position: absolute; top: 0; right: 0; margin: .5rem;" aria-label="Close">
                 ✖️
@@ -53,8 +99,44 @@
     </Waizor.Components.PopoverPortal>
 </Waizor.Components.Popover>
 
+<div style="position: absolute; top: 0; right: 0;">
+    <fieldset style="margin-bottom: 1rem">
+        <legend>Side</legend>
+        <InputRadioGroup @bind-Value="side">
+            @foreach (var side in Enum.GetValues<Side>())
+            {
+                <div>
+                    <label>
+                        <InputRadio Value="side" />
+                        @side
+                    </label>
+                </div>
+            }
+        </InputRadioGroup>
+    </fieldset>
+
+    <fieldset>
+        <legend>Alignment</legend>
+        <InputRadioGroup @bind-Value="align">
+            @foreach (var align in Enum.GetValues<Align>())
+            {
+                <div>
+                    <label>
+                        <InputRadio Value="align" />
+                        @align
+                    </label>
+                </div>
+            }
+        </InputRadioGroup>
+    </fieldset>
+</div>
+
 <div style="min-height: 150vh"></div>
 
 @code {
     ElementReference triggerElementReference;
+    ElementReference nestedTriggerElementReference;
+
+    Side side;
+    Align align;
 }

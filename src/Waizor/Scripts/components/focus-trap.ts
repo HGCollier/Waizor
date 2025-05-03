@@ -1,36 +1,68 @@
 import * as lib from "focus-trap";
-import { FocusTrap } from "focus-trap";
 import { DotNet } from "../lib/dotnet";
 
 interface DotNetFocusTrapObject {
     element: HTMLElement;
     dotNetObject: DotNet.DotNetObject;
     clickOutsideDeactivates: boolean;
+    allowOutsideClick: boolean;
+    trigger: HTMLElement;
 }
 
-const create = ({
-    element,
-    dotNetObject,
-    clickOutsideDeactivates,
-}: DotNetFocusTrapObject) => {
-    const trap = lib.createFocusTrap(element, {
-        onDeactivate: () => {
-            dotNetObject.invokeMethodAsync("Deactivate");
-        },
+class FocusTrap {
+    element: HTMLElement;
+    dotNetObject: DotNet.DotNetObject;
+    clickOutsideDeactivates: boolean;
+    allowOutsideClick: boolean;
+    trigger: HTMLElement;
+
+    trap: lib.FocusTrap;
+
+    constructor({
+        element,
+        dotNetObject,
+        allowOutsideClick,
         clickOutsideDeactivates,
-    });
-    trap.activate();
+        trigger,
+    }: DotNetFocusTrapObject) {
+        this.element = element;
+        this.dotNetObject = dotNetObject;
+        this.allowOutsideClick = allowOutsideClick;
+        this.clickOutsideDeactivates = clickOutsideDeactivates;
+        this.trigger = trigger;
 
-    return trap;
-};
+        const trap = lib.createFocusTrap(element, {
+            onDeactivate: () => {
+                dotNetObject.invokeMethodAsync("Deactivate");
+            },
+            allowOutsideClick: (event: MouseEvent | TouchEvent) => {
+                if (clickOutsideDeactivates) {
+                    return true;
+                }
 
-const dispose = (trap: FocusTrap) => {
-    trap.deactivate();
-};
+                if (!(event.target instanceof HTMLElement)) {
+                    return allowOutsideClick;
+                }
 
-const focusTrap = {
-    create,
-    dispose,
-};
+                return event.target === trigger && !allowOutsideClick;
+            },
+            clickOutsideDeactivates: (event: MouseEvent | TouchEvent) => {
+                if (!(event.target instanceof HTMLElement)) {
+                    return clickOutsideDeactivates;
+                }
 
-export { focusTrap, type FocusTrap, type DotNetFocusTrapObject };
+                return event.target !== trigger && clickOutsideDeactivates;
+            },
+        });
+
+        trap.activate();
+
+        this.trap = trap;
+    }
+
+    deactivate = () => {
+        this.trap.deactivate();
+    };
+}
+
+export { FocusTrap, type DotNetFocusTrapObject };

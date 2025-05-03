@@ -11,13 +11,14 @@ public partial class AccordionTrigger : ComponentBase
     public string? Class { get; set; }
 
     [Parameter]
-    public string? Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
     [CascadingParameter]
     public required AccordionItem AccordionItem { get; set; }
 
-    protected override void OnParametersSet() =>
-        AccordionItem.PanelId = Id ?? Guid.NewGuid().ToString();
+    private ElementReference elementReference;
+
+    protected override void OnParametersSet() => AccordionItem.PanelId = Id;
 
     private void OnClick() => AccordionItem.Accordion.Toggle(AccordionItem.Value);
 }

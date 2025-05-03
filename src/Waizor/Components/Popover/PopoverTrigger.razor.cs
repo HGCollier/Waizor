@@ -27,7 +27,7 @@ public partial class PopoverTrigger : SlotBase
             { "data-state", Popover.State.ToString().ToLowerInvariant() }
         };
 
-    private void OnClick() => Popover.Show();
+    private void OnClick() => Popover.Toggle();
 
     protected override void OnParametersSet() =>
         Popover.TriggerId = Id ?? Guid.NewGuid().ToString();
@@ -36,11 +36,13 @@ public partial class PopoverTrigger : SlotBase
     {
         if (!AsChild)
         {
+            Popover.SetTriggerElementReference(elementReference);
             return;
         }
 
         elementReference = (
             For ?? throw new ElementReferenceNotProvidedException(GetType().Name)
         )();
+        Popover.SetTriggerElementReference(elementReference);
     }
 }

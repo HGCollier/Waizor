@@ -4,7 +4,7 @@
 
 @if (elementReference.HasValue)
 {
-    <FocusTrap OnDeactivate="OnDeactivate" For="@(() => elementReference.Value)" ClickOutsideDeactivates />
+    <FocusTrap OnDeactivate="OnDeactivate" ForTrigger="@(() => Popover.TriggerElementReference)" For="@(() => elementReference.Value)" ClickOutsideDeactivates />
 }
 
 <PopperContent OnElementReferenceChanged="OnElementReferenceChanged" 
