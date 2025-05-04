@@ -1,3 +1,3 @@
 ﻿namespace Waizor.Primitives.Components.Internal;
 
-public partial class MenuSub : Menu;
+public partial class MenuSub : MenuBase;

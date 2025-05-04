@@ -21,10 +21,19 @@ public partial class MenuItem : ComponentBase
     [CascadingParameter]
     public required Menu Menu { get; set; }
 
+    [CascadingParameter]
+    public MenuSub? MenuSub { get; set; }
+
     private ElementReference elementReference;
 
     private async Task OnKeyDownAsync(KeyboardEventArgs args)
     {
+        if (MenuSub is not null && args.Code is KeyCodes.ArrowLeft)
+        {
+            await MenuSub.HideAsync();
+            return;
+        }
+
         if (args.Code is not KeyCodes.Enter and not KeyCodes.Space)
         {
             return;

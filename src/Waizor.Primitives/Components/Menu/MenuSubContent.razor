@@ -1,5 +1,5 @@
 ﻿@namespace Waizor.Primitives.Components.Internal
-@inherits MenuContentImplementation
+@inherits ComponentBase
 
 @if (ElementReference.HasValue)
 {
@@ -10,6 +10,16 @@
                KeyboardNavigation="false" />
 }
 
-@{
-    base.BuildRenderTree(__builder);
-}
+<RovingFocus For="@(() => ElementReference)" Orientation="@Orientation.Vertical" Loop="false">
+    <PopperContent OnElementReferenceChanged="OnElementReferenceChanged"
+                   Side="Side"
+                   SideOffset="SideOffset"
+                   Align="Align"
+                   AlignOffset="AlignOffset"
+                   ArrowPadding="ArrowPadding"
+                   role="menu"
+                   data-state="@MenuSub.State.ToString().ToLowerInvariant()"
+                   data-orientation="@Orientation.Vertical.ToString().ToLowerInvariant()">
+        @ChildContent
+    </PopperContent>
+</RovingFocus>

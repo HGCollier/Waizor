@@ -8,5 +8,5 @@ public partial class MenuPortal : ComponentBase
     public required RenderFragment ChildContent { get; set; }
 
     [CascadingParameter]
-    public required Menu Menu { get; set; }
+    public required IMenu Menu { get; set; }
 }

@@ -7,14 +7,7 @@
         </div>;
 }
 
-@if (AsChild)
-{
-    <RovingFocusItem For="For" />
-}
-else
-{
-    <RovingFocusItem For="@(() => elementReference)" />
-}
+<RovingFocusItem For="@(() => elementReference)" />
 
 @if (MenuSub.HasCustomAnchor)
 {

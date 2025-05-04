@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Waizor.Primitives.Abstractions;
+using Waizor.Primitives.Constants;
 using Waizor.Primitives.Exceptions;
 
 namespace Waizor.Primitives.Components.Internal;
@@ -23,24 +25,24 @@ public partial class MenuSubTrigger : SlotBase
     protected override Dictionary<string, object> Attributes =>
         new()
         {
-            { "onmousedown", () => OnClickAsync() },
-            //{ "onkeydown", (KeyboardEventArgs args) => OnKeyDownAsync(args) },
+            { "onmouseover", () => OnMouseOverAsync() },
+            { "onkeydown", (KeyboardEventArgs args) => OnKeyDownAsync(args) },
             { "aria-haspopup", "menu" },
             { "aria-expanded", MenuSub.Open.ToString().ToLowerInvariant() },
             { "data-state", MenuSub.State.ToString().ToLowerInvariant() }
         };
 
-    private async Task OnClickAsync() => await MenuSub.ToggleAsync();
+    private async Task OnMouseOverAsync() => await MenuSub.ShowAsync();
 
-    //private async Task OnKeyDownAsync(KeyboardEventArgs args)
-    //{
-    //    if (args.Code is not KeyCodes.ArrowDown and not KeyCodes.Enter and not KeyCodes.Space)
-    //    {
-    //        return;
-    //    }
+    private async Task OnKeyDownAsync(KeyboardEventArgs args)
+    {
+        if (args.Code is not KeyCodes.ArrowRight and not KeyCodes.Enter and not KeyCodes.Space)
+        {
+            return;
+        }
 
-    //    await Menu.ToggleAsync();
-    //}
+        await MenuSub.ToggleAsync();
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {
