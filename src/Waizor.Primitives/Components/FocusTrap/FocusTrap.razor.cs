@@ -15,6 +15,9 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
     public EventCallback OnDeactivate { get; set; }
 
     [Parameter]
+    public bool KeyboardNavigation { get; set; } = true;
+
+    [Parameter]
     public bool ClickOutsideDeactivates { get; set; }
 
     [Parameter]
@@ -27,7 +30,14 @@ public partial class FocusTrap(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisp
 
     private FocusTrapJSObject? JSObject =>
         dotNetObjectReference is not null
-            ? new(For(), dotNetObjectReference, ClickOutsideDeactivates, AllowOutsideClick, Trigger)
+            ? new(
+                For(),
+                dotNetObjectReference,
+                ClickOutsideDeactivates,
+                AllowOutsideClick,
+                KeyboardNavigation,
+                Trigger
+            )
             : null;
 
     public async ValueTask DisposeAsync()

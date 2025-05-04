@@ -17,6 +17,9 @@ public partial class Checkbox<T> : ComponentBase
     public string? Class { get; set; }
 
     [Parameter]
+    public bool? DefaultChecked { get; set; } = false;
+
+    [Parameter]
     public bool? Checked { get; set; } = null;
 
     [Parameter]
@@ -54,33 +57,26 @@ public partial class Checkbox<T> : ComponentBase
 
     private CheckboxState GetState()
     {
-        CheckboxState state = CheckboxState.None;
-
-        if (Checked ?? false)
+        if (!Checked.HasValue)
         {
-            state |= CheckboxState.Checked;
+            return CheckboxState.Indeterminate;
         }
 
-        if (Disabled)
+        if (Checked.Value)
         {
-            state |= CheckboxState.Disabled;
+            return CheckboxState.Checked;
         }
 
-        if (ReadOnly)
+        return CheckboxState.Unchecked;
+    }
+
+    protected override void OnInitialized()
+    {
+        if (!DefaultChecked.HasValue || Checked.HasValue)
         {
-            state |= CheckboxState.ReadOnly;
+            return;
         }
 
-        if (Required)
-        {
-            state |= CheckboxState.Required;
-        }
-
-        if (Checked == null)
-        {
-            state |= CheckboxState.Indeterminate;
-        }
-
-        return state;
+        Checked = DefaultChecked;
     }
 }

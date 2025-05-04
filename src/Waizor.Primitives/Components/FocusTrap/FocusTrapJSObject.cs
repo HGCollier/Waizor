@@ -8,5 +8,6 @@ internal record FocusTrapJSObject(
     DotNetObjectReference<FocusTrap> DotNetObject,
     bool ClickOutsideDeactivates,
     bool AllowOutsideClick,
+    bool KeyboardNavigation = true,
     ElementReference? Trigger = null
 );

@@ -1,0 +1,15 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits MenuContentImplementation
+
+@if (ElementReference.HasValue)
+{
+    <FocusTrap OnDeactivate="OnDeactivateAsync"
+               ForTrigger="@(() => MenuSub.TriggerElementReference)"
+               For="@(() => ElementReference.Value)"
+               ClickOutsideDeactivates
+               KeyboardNavigation="false" />
+}
+
+@{
+    base.BuildRenderTree(__builder);
+}

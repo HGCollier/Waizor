@@ -1,0 +1,15 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits ComponentBase
+
+<RovingFocusItem For="@(() => elementReference)" />
+
+<div role="menuitem" 
+     data-disabled="@Disabled" 
+     aria-disabled="@(Disabled ? "true" : null)" 
+     tabindex="@(Disabled ? -1 : 0)"
+     @onkeydown="OnKeyDownAsync"
+     @onclick="OnClickAsync"
+     @ref="elementReference"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+</div>

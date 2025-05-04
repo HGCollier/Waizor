@@ -35,6 +35,8 @@ public partial class Accordion : ComponentBase
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
 
+    private ElementReference elementReference;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)

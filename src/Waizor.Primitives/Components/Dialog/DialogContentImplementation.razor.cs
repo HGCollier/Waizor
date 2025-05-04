@@ -19,7 +19,7 @@ public partial class DialogContentImplementation : ComponentBase
     [CascadingParameter]
     public required IDialog Dialog { get; set; }
 
-    protected Dictionary<string, object>? AdditionalAttributes { get; set; }
+    protected Dictionary<string, object> AdditionalAttributes { get; set; } = [];
 
     protected ElementReference ElementReference { get; set; }
 

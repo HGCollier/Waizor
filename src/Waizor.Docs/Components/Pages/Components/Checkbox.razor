@@ -5,13 +5,13 @@
 </PageTitle>
 
 <label>
-    <Waizor.Primitives.Components.Checkbox Required Name="Test" T="string">
+    <Waizor.Primitives.Components.Checkbox Required Name="Test" T="string" DefaultChecked="null">
         <Waizor.Primitives.Components.CheckboxIndicator T="string">
-            @if (context.HasFlag(CheckboxState.Indeterminate))
+            @if (context == CheckboxState.Indeterminate)
             {
                 @("➖")
             }
-            else if (context.HasFlag(CheckboxState.Checked))
+            else if (context == CheckboxState.Checked)
             {
                 @("✔️")
             }

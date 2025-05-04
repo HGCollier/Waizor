@@ -1605,7 +1605,7 @@
     };
 
     class FocusTrap {
-        constructor({ element, dotNetObject, allowOutsideClick, clickOutsideDeactivates, trigger, }) {
+        constructor({ element, dotNetObject, allowOutsideClick, clickOutsideDeactivates, keyboardNavigation, trigger, }) {
             this.deactivate = () => {
                 this.trap.deactivate();
             };
@@ -1613,10 +1613,25 @@
             this.dotNetObject = dotNetObject;
             this.allowOutsideClick = allowOutsideClick;
             this.clickOutsideDeactivates = clickOutsideDeactivates;
+            this.keyboardNavigation = keyboardNavigation;
             this.trigger = trigger;
             const trap = createFocusTrap(element, {
                 onDeactivate: () => {
                     dotNetObject.invokeMethodAsync("Deactivate");
+                },
+                isKeyBackward: (event) => {
+                    if (!keyboardNavigation) {
+                        event.preventDefault();
+                        return false;
+                    }
+                    return event.shiftKey && event.key === "Tab";
+                },
+                isKeyForward: (event) => {
+                    if (!keyboardNavigation) {
+                        event.preventDefault();
+                        return false;
+                    }
+                    return event.key === "Tab";
                 },
                 allowOutsideClick: (event) => {
                     if (clickOutsideDeactivates) {
@@ -3355,12 +3370,20 @@
 
     class RovingFocus {
         get tabbableElements() {
-            return this.elements.filter((x) => isTabbable(x));
+            return this.focusableContainerElements.filter((element) => {
+                if (!(element instanceof HTMLElement)) {
+                    return false;
+                }
+                return isTabbable(element) && this.elements.includes(element);
+            });
         }
-        constructor(orientation) {
+        constructor(dotNetRovingFocusObject) {
             this.selected = 0;
+            this.loop = true;
+            this.orientation = Orientation.Vertical;
             this.elements = [];
             this.focusedElement = null;
+            this.focusableContainerElements = [];
             this.onKeyDown = (event) => {
                 if (!this.tabbableElements.some((tabbableElement) => tabbableElement === event.target)) {
                     return;
@@ -3375,12 +3398,21 @@
                 if (isValidKey) {
                     event.preventDefault();
                     if (isPrevKey) {
+                        if (!this.loop && this.selected === 0) {
+                            this.changeFocus(this.selected);
+                            return;
+                        }
                         this.selected =
                             this.selected === 0
                                 ? this.tabbableElements.length - 1
                                 : this.selected - 1;
                     }
                     else if (isNextKey) {
+                        if (!this.loop &&
+                            this.selected === this.tabbableElements.length - 1) {
+                            this.changeFocus(this.selected);
+                            return;
+                        }
                         this.selected =
                             this.selected === this.tabbableElements.length - 1
                                 ? 0
@@ -3389,8 +3421,13 @@
                     this.changeFocus(this.selected);
                 }
             };
-            this.update = (orientation) => {
+            this.update = ({ containerElementReference, orientation, loop, }) => {
+                console.log(containerElementReference);
+                if (containerElementReference != null) {
+                    this.focusableContainerElements = tabbable(containerElementReference);
+                }
                 this.orientation = orientation;
+                this.loop = loop;
             };
             this.onFocus = (event) => {
                 this.selected = this.tabbableElements.findIndex((tabbableElement) => tabbableElement === event.target);
@@ -3427,12 +3464,12 @@
                     element.removeEventListener("focus", this.onFocus);
                 });
             };
-            this.orientation = orientation;
+            this.update(dotNetRovingFocusObject);
         }
     }
 
     window.avatar = avatar;
-    window.rovingFocus = (orientation) => new RovingFocus(orientation);
+    window.rovingFocus = (dotNetRovingFocusObject) => new RovingFocus(dotNetRovingFocusObject);
     window.focusTrap = (dotNetFocusTrapObject) => new FocusTrap(dotNetFocusTrapObject);
     window.popper = (dotNetPopperObject) => new Popper(dotNetPopperObject);
 

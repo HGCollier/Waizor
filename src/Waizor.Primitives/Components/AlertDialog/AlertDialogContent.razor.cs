@@ -4,6 +4,5 @@ namespace Waizor.Primitives.Components;
 
 public partial class AlertDialogContent : DialogContentImplementation
 {
-    public AlertDialogContent() =>
-        AdditionalAttributes = new Dictionary<string, object>() { { "role", "alertdialog" } };
+    protected override void OnInitialized() => AdditionalAttributes.Add("role", "alertdialog");
 }

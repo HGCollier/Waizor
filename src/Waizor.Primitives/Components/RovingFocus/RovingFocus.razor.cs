@@ -6,11 +6,19 @@ namespace Waizor.Primitives.Components.Internal;
 
 public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDisposable
 {
-    [Parameter]
+    [Parameter, EditorRequired]
+    public required Func<ElementReference?> For { get; set; }
+
+    [Parameter, EditorRequired]
     public required RenderFragment ChildContent { get; set; }
 
     [Parameter]
     public Orientation Orientation { get; set; } = Orientation.Vertical;
+
+    [Parameter]
+    public bool Loop { get; set; } = true;
+
+    private RovingFocusJSObject JSObject => new(For(), Orientation, Loop);
 
     private IJSObjectReference? jsObjectReference;
 
@@ -33,17 +41,23 @@ public partial class RovingFocus(IJSRuntime jsRuntime) : ComponentBase, IAsyncDi
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        ElementReference? elementReference = For();
+        if (elementReference is null)
+        {
+            return;
+        }
+
         if (firstRender || jsObjectReference is null)
         {
             jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>(
                 "rovingFocus",
-                Orientation
+                JSObject
             );
             await InvokeAsync(StateHasChanged);
             return;
         }
 
-        await jsObjectReference.InvokeVoidAsync("update", Orientation);
+        await jsObjectReference.InvokeVoidAsync("update", JSObject);
     }
 
     public async Task<bool> TryAddItemAsync(ElementReference elementReference)

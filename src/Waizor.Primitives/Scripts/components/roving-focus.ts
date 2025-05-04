@@ -1,20 +1,34 @@
 import { FocusableElement, tabbable, isTabbable } from "tabbable";
 import { Orientation } from "../enums/orientation";
 
+interface DotNetRovingFocusObject {
+    containerElementReference: HTMLElement;
+    orientation: Orientation;
+    loop: boolean;
+}
+
 class RovingFocus {
     selected = 0;
-    orientation: Orientation;
+    loop = true;
+    orientation: Orientation = Orientation.Vertical;
 
     elements: HTMLElement[] = [];
 
     focusedElement: FocusableElement | null = null;
+    focusableContainerElements: FocusableElement[] = [];
 
     get tabbableElements() {
-        return this.elements.filter((x) => isTabbable(x));
+        return this.focusableContainerElements.filter((element) => {
+            if (!(element instanceof HTMLElement)) {
+                return false;
+            }
+
+            return isTabbable(element) && this.elements.includes(element);
+        });
     }
 
-    constructor(orientation: Orientation) {
-        this.orientation = orientation;
+    constructor(dotNetRovingFocusObject: DotNetRovingFocusObject) {
+        this.update(dotNetRovingFocusObject);
     }
 
     onKeyDown = (event: KeyboardEvent) => {
@@ -38,11 +52,24 @@ class RovingFocus {
         if (isValidKey) {
             event.preventDefault();
             if (isPrevKey) {
+                if (!this.loop && this.selected === 0) {
+                    this.changeFocus(this.selected);
+                    return;
+                }
+
                 this.selected =
                     this.selected === 0
                         ? this.tabbableElements.length - 1
                         : this.selected - 1;
             } else if (isNextKey) {
+                if (
+                    !this.loop &&
+                    this.selected === this.tabbableElements.length - 1
+                ) {
+                    this.changeFocus(this.selected);
+                    return;
+                }
+
                 this.selected =
                     this.selected === this.tabbableElements.length - 1
                         ? 0
@@ -52,8 +79,21 @@ class RovingFocus {
         }
     };
 
-    update = (orientation: Orientation) => {
+    update = ({
+        containerElementReference,
+        orientation,
+        loop,
+    }: DotNetRovingFocusObject) => {
+        console.log(containerElementReference);
+
+        if (containerElementReference != null) {
+            this.focusableContainerElements = tabbable(
+                containerElementReference
+            );
+        }
+
         this.orientation = orientation;
+        this.loop = loop;
     };
 
     onFocus = (event: FocusEvent) => {
@@ -103,4 +143,4 @@ class RovingFocus {
     };
 }
 
-export { RovingFocus };
+export { RovingFocus, DotNetRovingFocusObject };

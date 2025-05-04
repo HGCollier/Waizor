@@ -36,7 +36,7 @@ public partial class PopperContent(IJSRuntime jsRuntime)
     [Parameter]
     public EventCallback<ElementReference> OnElementReferenceChanged { get; set; }
 
-    public ElementReference Ref
+    protected ElementReference Ref
     {
         get => elementReference;
         set

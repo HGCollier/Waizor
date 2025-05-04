@@ -1,0 +1,28 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits SlotBase
+@{
+    RenderFragment trigger = AsChild ? ChildContent(Attributes) :
+        @<div tabindex="0" @attributes="Attributes" @ref="elementReference">
+            @ChildContent(Attributes)
+        </div>;
+}
+
+@if (AsChild)
+{
+    <RovingFocusItem For="For" />
+}
+else
+{
+    <RovingFocusItem For="@(() => elementReference)" />
+}
+
+@if (MenuSub.HasCustomAnchor)
+{
+    @trigger
+}
+else
+{
+    <MenuAnchor AsChild For="@(() => elementReference)">
+        @trigger
+    </MenuAnchor>
+}

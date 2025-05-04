@@ -1,0 +1,16 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits ComponentBase
+
+<RovingFocus For="@(() => ElementReference)" Orientation="@Orientation.Vertical" Loop="false">
+    <PopperContent OnElementReferenceChanged="OnElementReferenceChanged"
+                   Side="Side"
+                   SideOffset="SideOffset"
+                   Align="Align"
+                   AlignOffset="AlignOffset"
+                   ArrowPadding="ArrowPadding"
+                   role="menu" 
+                   data-state="@Menu.State.ToString().ToLowerInvariant()"
+                   data-orientation="@Orientation.Vertical.ToString().ToLowerInvariant()">
+        @ChildContent
+    </PopperContent>
+</RovingFocus>

@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits ComponentBase
+
+@if (MenuItemIndicatorProvider.State is not MenuItemIndicatorState.Checked)
+{
+    return;
+}
+
+<span data-state="@MenuItemIndicatorProvider.State.ToString().ToLowerInvariant()" @attributes="AdditionalAttributes">
+    @ChildContent
+</span>

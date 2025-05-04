@@ -1,0 +1,16 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits MenuItem
+@typeparam T
+
+<MenuItemIndicatorProvider State="State">
+    <CascadingValue Value="this">
+        <MenuItem OnSelect="OnSelectAsync"
+                  Disabled="Disabled"
+                  role="menuitemradio"
+                  aria-checked="@(State == MenuItemIndicatorState.Indeterminate ? "mixed" : (State == MenuItemIndicatorState.Checked).ToString().ToLowerInvariant())"
+                  data-state="@State.ToString().ToLowerInvariant()"
+                  @attributes="AdditionalAttributes">
+            @ChildContent
+        </MenuItem>
+    </CascadingValue>
+</MenuItemIndicatorProvider>

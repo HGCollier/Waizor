@@ -1,0 +1,8 @@
+﻿@namespace Waizor.Primitives.Components
+@inherits Menu
+
+<CascadingValue Value="this">
+    <Menu @bind-Open="Open">
+        @ChildContent
+    </Menu>
+</CascadingValue>

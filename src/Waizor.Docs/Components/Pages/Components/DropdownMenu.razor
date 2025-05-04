@@ -1,0 +1,106 @@
+﻿@page "/dropdown-menu"
+
+<PageTitle>
+    Dropdown Menu
+</PageTitle>
+
+<Waizor.Primitives.Components.DropdownMenu>
+    <Waizor.Primitives.Components.DropdownMenuTrigger AsChild For="@(() => dropdownMenuTriggerElementReference)">
+        <button type="button" @attributes="context" @ref="dropdownMenuTriggerElementReference">
+            🍔
+        </button>
+    </Waizor.Primitives.Components.DropdownMenuTrigger>
+    <Waizor.Primitives.Components.DropdownMenuPortal>
+        <Waizor.Primitives.Components.DropdownMenuContent>
+            <Waizor.Primitives.Components.DropdownMenuItem>
+                New Tab
+                <div>
+                    ⌘+T
+                </div>
+            </Waizor.Primitives.Components.DropdownMenuItem>
+            <Waizor.Primitives.Components.DropdownMenuItem>
+                New Window
+                <div>
+                    ⌘+N
+                </div>
+            </Waizor.Primitives.Components.DropdownMenuItem>
+            <Waizor.Primitives.Components.DropdownMenuItem Disabled>
+                New Private Window
+                <div>
+                    ⇧+⌘+N
+                </div>
+            </Waizor.Primitives.Components.DropdownMenuItem>
+            @* <Waizor.Primitives.Components.DropdownMenuSub>
+                <Waizor.Primitives.Components.DropdownMenuSubTrigger>
+                    More Tools
+                    <div>
+                        ❯
+                    </div>
+                </Waizor.Primitives.Components.DropdownMenuSubTrigger>
+                <Waizor.Primitives.Components.DropdownMenuPortal>
+                    <Waizor.Primitives.Components.DropdownMenuSubContent>
+                        <Waizor.Primitives.Components.DropdownMenuItem>
+                            Save Page As… <div className="RightSlot">⌘+S</div>
+                        </Waizor.Primitives.Components.DropdownMenuItem>
+                        <Waizor.Primitives.Components.DropdownMenuItem>
+                            Create Shortcut…
+                        </Waizor.Primitives.Components.DropdownMenuItem>
+                        <Waizor.Primitives.Components.DropdownMenuItem>
+                            Name Window…
+                        </Waizor.Primitives.Components.DropdownMenuItem>
+                        <Waizor.Primitives.Components.DropdownMenuSeparator />
+                        <Waizor.Primitives.Components.DropdownMenuItem>
+                            Developer Tools
+                        </Waizor.Primitives.Components.DropdownMenuItem>
+                    </Waizor.Primitives.Components.DropdownMenuSubContent>
+                </Waizor.Primitives.Components.DropdownMenuPortal>
+            </Waizor.Primitives.Components.DropdownMenuSub> *@
+
+            <Waizor.Primitives.Components.DropdownMenuSeparator style="height: 1px; background-color: #ccc; margin: 5px;" />
+
+            <Waizor.Primitives.Components.DropdownMenuCheckboxItem @bind-Checked="showBookmarks">
+                <Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                    ✔️
+                </Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                Show Bookmarks <div>⌘+B</div>
+            </Waizor.Primitives.Components.DropdownMenuCheckboxItem>
+            <Waizor.Primitives.Components.DropdownMenuCheckboxItem @bind-Checked="showFullUrls">
+                <Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                    ✔️
+                </Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                Show Full URLs
+            </Waizor.Primitives.Components.DropdownMenuCheckboxItem>
+
+            <Waizor.Primitives.Components.DropdownMenuSeparator style="height: 1px; background-color: #ccc; margin: 5px;" />
+
+            <Waizor.Primitives.Components.DropdownMenuLabel>
+                People
+            </Waizor.Primitives.Components.DropdownMenuLabel>
+            <Waizor.Primitives.Components.DropdownMenuRadioGroup @bind-Value="person">
+                <Waizor.Primitives.Components.DropdownMenuRadioItem Value="@("halden")">
+                    <Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                        🔘
+                    </Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                    Halden Collier
+                </Waizor.Primitives.Components.DropdownMenuRadioItem>
+                <Waizor.Primitives.Components.DropdownMenuRadioItem Value="@("john")">
+                    <Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                        🔘
+                    </Waizor.Primitives.Components.DropdownMenuItemIndicator>
+                    John Doe
+                </Waizor.Primitives.Components.DropdownMenuRadioItem>
+            </Waizor.Primitives.Components.DropdownMenuRadioGroup>
+
+            <Waizor.Primitives.Components.DropdownMenuArrow />
+        </Waizor.Primitives.Components.DropdownMenuContent>
+    </Waizor.Primitives.Components.DropdownMenuPortal>
+</Waizor.Primitives.Components.DropdownMenu>
+
+@code {
+    ElementReference dropdownMenuTriggerElementReference;
+
+    bool? showBookmarks = false;
+    bool? showFullUrls = false;
+
+    string person = "halden";
+}

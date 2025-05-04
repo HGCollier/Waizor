@@ -1,0 +1,11 @@
+﻿@namespace Waizor.Primitives.Components.Internal
+@inherits ComponentBase
+
+@if (!Menu.Open)
+{
+    return;
+}
+
+<Portal>
+    @ChildContent
+</Portal>
